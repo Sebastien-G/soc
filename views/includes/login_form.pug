@@ -1,0 +1,15 @@
+form(action="/login", method="post")
+  div
+    label(for="username") Nom d'utilisateur
+    input(type="text", id="username", name="username")
+
+  div
+    label(for="password") Mot de passe
+    input(type="password", id="password", name="password")
+
+  div
+    input(type="checkbox", id="remember_me", name="remember_me" value="yes")
+    label(for="remember_me") Remember Me
+
+  div
+    input(type="submit", value="Submit")

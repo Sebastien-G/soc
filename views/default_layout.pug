@@ -1,0 +1,23 @@
+doctype html
+html(lang="fr")
+  head
+    title= title
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='/stylesheets/foundation.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.min.css')
+  body
+
+    include ./includes/header.pug
+
+    block content
+
+    include ./includes/footer.pug
+
+
+  script(src="/javascripts/foundation/jquery.js")
+  script(src="/javascripts/foundation/what-input.js")
+  script(src="/javascripts/foundation/foundation.js")
+
+  script(src="/javascripts/app.js")
+
+  script(src="https://use.fontawesome.com/8e10cfa5d1.js")
