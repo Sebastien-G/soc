@@ -9,15 +9,19 @@ html(lang="fr")
 
     include ./includes/header.pug
 
-    block content
+    div.wrapper
+      div.row
+        div.small-12.medium-8.large-9.columns
+          block content
+        div.small-12.medium-4.large-3.columns
 
     include ./includes/footer.pug
 
-
+  // Foundation
   script(src="/javascripts/foundation/jquery.js")
   script(src="/javascripts/foundation/what-input.js")
   script(src="/javascripts/foundation/foundation.js")
-
+  // App scripts
   script(src="/javascripts/app.js")
-
+  // Font Awesome (personal API key)
   script(src="https://use.fontawesome.com/8e10cfa5d1.js")

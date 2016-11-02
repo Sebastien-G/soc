@@ -1,25 +1,38 @@
 header.top-bar
+  div.wrapper
     div.top-bar-left
       ul.dropdown.menu(data-dropdown-menu)
         li.menu-text
-          ="Site Title"
+          a(href="/") JS net
 
         li
           a(href="#") One
 
           ul.menu.vertical
             li
-              a(href="#") One
+              a(href="/about") about
             li
               a(href="#") Two
             li
               a(href="#") Three
         li
-          a(href="#") Two
+          a(href="/login") Connexion
         li
-          a(href="#") Three
+          a(href="/signup") Inscription
 
     div.top-bar-right
+      if req && req.user
+        if req.user.username
+          span
+            =req.user.firstname + ' ' + req.user.lastname
+
+          span
+            a(href="/logout") déconnexion
+        else
+          ="Vous êtes connecté mais je ne connais pas votre nom"
+      else
+        ="NOT logged in"
+
       ul.menu
         li
           input(type="search", placeholder="Search")

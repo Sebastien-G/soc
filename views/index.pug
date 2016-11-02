@@ -2,6 +2,9 @@ extends default_layout
 
 block content
   h1= title
-  p Welcome to #{title}, Man!
+  p Welcome to #{title}!
 
-  include ./includes/signup_form.pug
+  if req && req.user
+    ="My stream"
+  else
+    include ./includes/signup_form.pug

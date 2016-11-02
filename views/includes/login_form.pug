@@ -1,15 +1,20 @@
+if loginErrorMsg
+  div.callout.alert
+    h5 Erreur
+    p= loginErrorMsg
+
 form(action="/login", method="post")
   div
-    label(for="username") Nom d'utilisateur
-    input(type="text", id="username", name="username")
+    label(for="username") Adresse e-mail
+    input(type="text", id="username", name="username", required="required")
 
   div
     label(for="password") Mot de passe
-    input(type="password", id="password", name="password")
+    input(type="password", id="password", name="password", required="required")
 
   div
-    input(type="checkbox", id="remember_me", name="remember_me" value="yes")
-    label(for="remember_me") Remember Me
+    input.button.expanded(type="submit", value="Connexion")
 
-  div
-    input(type="submit", value="Submit")
+
+p.text-center
+  a(href="/recover") Informations de compte oubliées ?

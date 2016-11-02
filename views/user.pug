@@ -1,0 +1,9 @@
+extends default_layout
+
+block content
+  h1= title
+
+  if req && req.user
+    p Some personalized content
+  else
+    p You will be escorted out
