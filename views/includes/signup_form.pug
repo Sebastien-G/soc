@@ -1,11 +1,15 @@
 -
   if (formData === undefined) {
-    var formData = {'firstname': '',
+    var formData = {
+      'firstname': '',
       'lastname': '',
       'username': '',
       'username-repeat': '',
       'password': ''
     };
+    if (xformData) {
+      formData = xformData;
+    }
   }
 
 

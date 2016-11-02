@@ -172,18 +172,31 @@ router.post('/', function(req, res, next) {
     var randomstring = require('randomstring');
     var confirmationString = randomstring.generate(32);
 
+    formMessages.username = 'Cette adresse e-mail est déjà utilisée';
+
     User.register(new User({
       confirmationString: confirmationString,
       firstname: userInput.firstname,
       lastname: userInput.lastname,
       username: userInput.username,
     }),
-    userInput.password, function(err, account) {
+    userInput.password,
+    function(err, user) {
       if (err) {
         console.log(err);
+        console.log('>>> userInput:');
+        console.log(userInput);
+        console.log('<<<');
+
+        console.log('>>> formMessages:');
+        console.log(formMessages);
+        console.log('<<<');
+
         return res.render('signup', {
           title: 'Inscription',
           formData: userInput,
+          xformData: userInput,
+          formMessages: formMessages
         });
       }
 
@@ -207,7 +220,7 @@ router.post('/', function(req, res, next) {
       var mailOptions = {
         from: '"SocialBot" <sebastienguillon@gmail.com>', // sender address
         to: 'sebastienguillon@gmail.com', // list of receivers
-        subject: userInput.firstname + userInput.lastname + ', finalisez votre inscription ❤', // Subject line
+        subject: userInput.firstname + ' ' + userInput.lastname + ', finalisez votre inscription ❤', // Subject line
         text: emailContent.text, // plaintext body
         html: emailContent.html // html body
       };
