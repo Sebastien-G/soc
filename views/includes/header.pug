@@ -25,7 +25,8 @@ header.top-bar
       if req && req.user
         if req.user.username
           span
-            =req.user.firstname + ' ' + req.user.lastname
+            a(href="/user/" + req.user.uid)
+              = req.user.firstname + ' ' + req.user.lastname
 
           span
             a(href="/logout") déconnexion
