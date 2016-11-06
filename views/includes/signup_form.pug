@@ -12,66 +12,67 @@
     }
   }
 
+div(ng-controller="signupController as signupCtrl")
 
-form(action="/signup", method="post")
+  form(method="post", name="signupCtrl.signupForm", ng-submit="signupCtrl.signupForm.$valid && signupCtrl.save()", novalidate)
 
-  div.row
-    div.small-6.columns(class=(formMessages && formMessages.firstname) ? 'field-error' : '')
-      label(for="firstname") Prénom
-      input(type="text", id="firstname", name="firstname", required="required", value=formData.firstname)
-      if formMessages && formMessages.firstname
-        p.field-error-message= formMessages.firstname
+    div.row
+      div.small-6.columns(class=(formMessages && formMessages.firstname) ? 'field-error' : '')
+        label(for="firstname") Prénom
+        input(type="text", id="firstname", name="firstname", required="required", value=formData.firstname, ng-model="signupCtrl.formData.firstname")
+        div(ng-messages="signupCtrl.signupForm.firstname.$error", ng-if="signupCtrl.signupForm.firstname.$dirty", role="alert")
+          p.callout.alert(ng-message="required") Veuillez saisir votre prénom.
 
-    div.small-6.columns(class=(formMessages && formMessages.lastname) ? 'field-error' : '')
-      label(for="lastname") Nom de famille
-      input(type="text", id="lastname", name="lastname", required="required", value=formData.lastname)
-      if formMessages && formMessages.lastname
-        p.field-error-message= formMessages.lastname
+      div.small-6.columns(class=(formMessages && formMessages.lastname) ? 'field-error' : '')
+        label(for="lastname") Nom de famille
+        input(type="text", id="lastname", name="lastname", required="required", value=formData.lastname, ng-model="signupCtrl.formData.lastname")
+        div(ng-messages="signupCtrl.signupForm.lastname.$error", ng-if="signupCtrl.signupForm.lastname.$dirty", role="alert")
+          p.callout.alert(ng-message="required") Veuillez saisir votre nom de famille.
 
-  div.row
-    div.small-12.columns(class=(formMessages && formMessages.username) ? 'field-error' : '')
-      label(for="username") Adresse e-mail
-      input(type="email", id="username", name="username", required="required", value=formData.username)
-      if formMessages && formMessages.username
-        p.field-error-message= formMessages.username
+    div.row
+      div.small-12.columns(class=(formMessages && formMessages.username) ? 'field-error' : '')
+        label(for="username") Adresse e-mail
+        input(type="email", id="username", name="username", required="required", value=formData.username, ng-model="signupCtrl.formData.username")
+        div(ng-messages="signupCtrl.signupForm.username.$error", ng-if="signupCtrl.signupForm.username.$dirty", role="alert")
+          p.callout.alert(ng-message="required") Veuillez saisir votre adresse e-mail.
 
-  div.row
-    div.small-12.columns(class=(formMessages && formMessages['username-repeat']) ? 'field-error' : '')
-      label(for="username-repeat") Adresse e-mail (confirmation)
-      input(type="email", id="username-repeat", name="username-repeat", required="required", value=formData['username-repeat'])
-      if formMessages && formMessages['username-repeat']
-        p.field-error-message= formMessages['username-repeat']
+    div.row
+      div.small-12.columns(class=(formMessages && formMessages['username-repeat']) ? 'field-error' : '')
+        label(for="username-repeat") Adresse e-mail (confirmation)
+        input(type="email", id="username-repeat", name="username-repeat", required="required", value=formData['username-repeat'], ng-model="signupCtrl.formData['username-repeat']")
+        div(ng-messages="signupCtrl.signupForm['username-repeat'].$error", ng-if="signupCtrl.signupForm['username-repeat'].$dirty", role="alert")
+          p.callout.alert(ng-message="required") Veuillez confirmer votre adresse e-mail.
 
-      // -
-        if formErrors
-          if formErrors.usernameTaken
-            p= formErrors.usernameTaken
+        // -
+          if formErrors
+            if formErrors.usernameTaken
+              p= formErrors.usernameTaken
 
-  div.row
-    div.small-12.columns(class=(formMessages && formMessages.password) ? 'field-error' : '')
-      label(for="password") Mot de passe
-      input(type="password", id="password", name="password", required="required", value="")
-      if formMessages && formMessages.password
-        p.field-error-message= formMessages.password
-  // -
+    div.row
+      div.small-12.columns(class=(formMessages && formMessages.password) ? 'field-error' : '')
+        label(for="password") Mot de passe
+        input(type="password", id="password", name="password", required="required", value="", ng-model="signupCtrl.formData.password")
+        div(ng-messages="signupCtrl.signupForm.password.$error", ng-if="signupCtrl.signupForm.password.$dirty", role="alert")
+          p.callout.alert(ng-message="required") Veuillez saisir votre mot de passe.
+    // -
+      div.row
+        div.small-12.columns
+          ="Date de naissance"
+          div.row
+            div.small-4.columns
+              select(id="birthday", name="birthday", required="required")
+                each val in days
+                  option(value=val)= val
+            div.small-4.columns
+              select(id="birthmonth", name="birthmonth", required="required")
+                each val, index in months
+                  option(value=index)= val
+            div.small-4.columns
+              select(id="birthyear", name="birthyear", required="required")
+                each val in years
+                  option(value=val)= val
+
+
     div.row
       div.small-12.columns
-        ="Date de naissance"
-        div.row
-          div.small-4.columns
-            select(id="birthday", name="birthday", required="required")
-              each val in days
-                option(value=val)= val
-          div.small-4.columns
-            select(id="birthmonth", name="birthmonth", required="required")
-              each val, index in months
-                option(value=index)= val
-          div.small-4.columns
-            select(id="birthyear", name="birthyear", required="required")
-              each val in years
-                option(value=val)= val
-
-
-  div.row
-    div.small-12.columns
-      input.button.expanded.success(type="submit", value="Inscription")
+        input.button.expanded.success(type="submit", value="Inscription" ng-disabled="signupCtrl.signupForm.$invalid")

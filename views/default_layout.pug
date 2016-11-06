@@ -4,7 +4,15 @@ html(lang="fr")
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/stylesheets/foundation.min.css')
+
+    //link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
+    //link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css')
+
     link(rel='stylesheet', href='/stylesheets/style.min.css')
+
+
+
+  // body(ng-app="app")
   body
 
     include ./includes/header.pug
@@ -18,10 +26,30 @@ html(lang="fr")
     include ./includes/footer.pug
 
   // Foundation
-  script(src="/javascripts/foundation/jquery.js")
-  script(src="/javascripts/foundation/what-input.js")
-  script(src="/javascripts/foundation/foundation.js")
+  // script(src="/javascripts/foundation/jquery.js")
+  // script(src="/javascripts/foundation/what-input.js")
+  // script(src="/javascripts/foundation/foundation.js")
+
+  // AngularJS
+  script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js")
+  //script(src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js")
+  script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-messages.min.js")
+
+  // Angular Foundation
+  script(src="/javascripts/angular-foundation/angular-foundation.min.js")
+
+  // UI Bootstrap
+  //script(src="/javascripts/ui-bootstrap/ui-bootstrap-tpls-2.2.0.min.js")
+
   // App scripts
   script(src="/javascripts/app.js")
+
+  block angularControllers
+
+  // Bootstrap Angular
+  script(src="/javascripts/angular-bootstrap.js")
+
   // Font Awesome (personal API key)
   script(src="https://use.fontawesome.com/8e10cfa5d1.js")
+
+  block extraBottomScripts

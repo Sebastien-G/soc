@@ -15,10 +15,11 @@ header.top-bar
               a(href="#") Two
             li
               a(href="#") Three
-        li
-          a(href="/login") Connexion
-        li
-          a(href="/signup") Inscription
+        unless req && req.user
+          li
+            a(href="/login") Connexion
+          li
+            a(href="/signup") Inscription
 
     div.top-bar-right
       if req && req.user
@@ -31,7 +32,7 @@ header.top-bar
         else
           ="Vous êtes connecté mais je ne connais pas votre nom"
       else
-        ="NOT logged in"
+        <!--NOT logged in-->
 
       ul.menu
         li

@@ -31,6 +31,11 @@ var userSchema = new Schema({
         sparse: true
       }
     },
+    role: {
+      type: String,
+      required: true,
+      default: 'user'
+    },
     username:  {
       type: String,
       required: true,
@@ -45,6 +50,10 @@ var userSchema = new Schema({
     lastname: {
       type: String,
       required: true
+    },
+    about: {
+      type: String,
+      default: ''
     },
     dateOfBirth: Date,
     created: {

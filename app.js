@@ -61,7 +61,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // http://mherman.org/blog/2013/11/11/user-authentication-with-passport-dot-js/#.WBV-Y-2KRi9
 app.use(session({
 //  store: new MongoStore({db: db}),
-  secret: 'simplesecret',
+  secret: 'e!b(£6^§§914C9£5*01A$_b^284a*096(!6f0*1f!&849*3).',
   saveUninitialized: false,
   resave: false,
   store: new MongoStore({
@@ -82,11 +82,14 @@ passport.deserializeUser(User.deserializeUser());
 
 // Routes
 app.use('/', require('./routes/index'));
+
 app.use('/signup', require('./routes/signup'));
 app.use('/user', require('./routes/user'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/confirm-account', require('./routes/confirmAccount'));
+
+app.use('/admin', require('./routes/admin'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

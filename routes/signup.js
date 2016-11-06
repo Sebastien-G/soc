@@ -160,12 +160,18 @@ router.post('/', function(req, res, next) {
   }
 
   if (formErrors) {
-    res.render('signup', {
-      title: 'Inscription',
-      req: req,
-      formData: userInput,
-      formMessages: formMessages
+    // res.render('signup', {
+    //   title: 'Inscription',
+    //   req: req,
+    //   formData: userInput,
+    //   formMessages: formMessages
+    // });
+
+    res.json({
+      status: 'error',
+      formData: userInput
     });
+
   } else {
 
     // Process user registration
@@ -178,26 +184,25 @@ router.post('/', function(req, res, next) {
       confirmationString: confirmationString,
       firstname: userInput.firstname,
       lastname: userInput.lastname,
-      username: userInput.username,
+      username: userInput.username
     }),
     userInput.password,
     function(err, user) {
       if (err) {
-        console.log(err);
-        console.log('>>> userInput:');
-        console.log(userInput);
-        console.log('<<<');
-
-        console.log('>>> formMessages:');
-        console.log(formMessages);
-        console.log('<<<');
-
-        return res.render('signup', {
+        /*return res.render('signup', {
           title: 'Inscription',
           formData: userInput,
           xformData: userInput,
           formMessages: formMessages
+        });*/
+
+        return res.json({
+          status: 'error',
+          formData: userInput,
+          xformData: userInput,
+          error: err
         });
+
       }
 
       // User registered, send confirmation e-mail
@@ -235,7 +240,10 @@ router.post('/', function(req, res, next) {
 
 
       passport.authenticate('local')(req, res, function () {
-        res.redirect('/');
+        //res.redirect('/');
+        res.json({
+          status: 'success'
+        });
       });
     });
 

@@ -20,6 +20,8 @@ footer {
   min-height: 400px;
 }
 
+// Following rules made obsolete by using Angular's ngMessages
+/*
 .field-error {
   background-color: rgba(255, 0, 0, 0.1);
   color: red;
@@ -37,3 +39,32 @@ p.field-error-message {
   color: #000;
   font-style: italic;
 }
+*/
+
+/*
+Start:
+ Angular form stuff
+*/
+input.ng-invalid.ng-touched,
+textarea.ng-invalid.ng-touched {
+  border-bottom: 2px solid #f00;
+}
+input.ng-valid.ng-touched,
+textarea.ng-valid.ng-touched {
+  border-bottom: 2px solid #0a3;
+}
+
+
+[role="alert"] [ng-message] {
+  margin-top: -1rem;
+  font-style: italic;
+
+/*  color: #000;
+  background-color: rgba(255, 0, 0, 0.1);
+  padding: 10px;
+  */
+}
+/*
+End:
+Angular form stuff
+*/
