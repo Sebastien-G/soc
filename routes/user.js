@@ -9,4 +9,12 @@ router.get('/:username', function(req, res, next) {
   });
 });
 
+router.get('/edit', function(req, res, next) {
+  var username = req.params.username;
+  res.render('userEdit', {
+    title: 'Modifier mon profile',
+    req: req
+  });
+});
+
 module.exports = router;

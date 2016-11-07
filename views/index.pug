@@ -7,7 +7,26 @@ block content
   h1= title
   p Welcome to #{title}!
 
+  if signupConfirmEmail
+    div.callout.success(data-closable="slide-out-right")
+      button.close-button(aria-label="Close alert", type="button", data-close)
+        span(aria-hidden="true") &times;
+      h3 Consultez votre messagerie
+      p Un e-mail vous a été envoyé à
+        = " "
+        strong #{signupConfirmEmail}
+        |.
+      p Veuillez suivre les instructions pour confirmer votre inscription.
+
+
+  if accountConfirmed
+    div.callout.success(data-closable="slide-out-right")
+      button.close-button(aria-label="Close alert", type="button", data-close)
+        span(aria-hidden="true") &times;
+      h3 Bienvenue&nbsp;!
+      p Votre compte a été confirmé (vous avez été connecté(e) automatiquement)
+
   if req && req.user
     ="My stream"
   else
-    include ./includes/signup_form.pug
+    // include ./includes/signup_form.pug

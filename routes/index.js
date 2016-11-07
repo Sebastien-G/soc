@@ -3,11 +3,32 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log('req.user : ' + req.user);
-  res.render('index', {
+
+  var obj = {
     title: 'Social Network about nothing',
     req: req
-  });
+  };
+
+  if (req.query.confirm) {
+    var confirm = req.query.confirm;
+
+    if (confirm == 'signup') {
+      var signupConfirmEmail = req.flash('signupConfirmEmail');
+      if (signupConfirmEmail != '') {
+        obj.signupConfirmEmail = signupConfirmEmail
+      }
+    }
+
+    if (confirm == 'account') {
+      var userId = req.flash('accountConfirmed');
+      if (userId != '') {
+        obj.accountConfirmed = userId
+      }
+    }
+
+  }
+
+  res.render('index', obj);
 });
 
 module.exports = router;

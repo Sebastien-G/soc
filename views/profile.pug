@@ -1,12 +1,16 @@
 extends default_layout
 
+block angularModules
+  script(src="/javascripts/ng-file-upload-all.min.js")
+
 block angularControllers
   script(src="/javascripts/profile-controller.js")
 
 block content
+  h1= title
 
   if req && req.user
-    h1 Profile de l'utilisateur XXX
+    include ./includes/profile_form.pug
 
   else
     p You will be escorted out

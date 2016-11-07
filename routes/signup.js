@@ -92,8 +92,7 @@ router.get('/', function(req, res, next) {
   });
 });
 
-router.post('/', function(req, res, next) {
-
+router.post('/', function(req, res) {
   var requiredInputs = [
     'firstname',
     'lastname',
@@ -159,6 +158,7 @@ router.post('/', function(req, res, next) {
     formErrors = true;
   }
 
+
   if (formErrors) {
     // res.render('signup', {
     //   title: 'Inscription',
@@ -171,6 +171,7 @@ router.post('/', function(req, res, next) {
       status: 'error',
       formData: userInput
     });
+    return false;
 
   } else {
 
@@ -199,52 +200,57 @@ router.post('/', function(req, res, next) {
         return res.json({
           status: 'error',
           formData: userInput,
-          xformData: userInput,
-          error: err
+          formMessages: formMessages,
+          error: 'UserExists'
+        });
+      } else {
+
+        // User registered, send confirmation e-mail
+        var nodemailer = require('nodemailer');
+        process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+        var transporter = nodemailer.createTransport('smtps://sebastienguillon%40gmail.com:kjxwbbqoadqzotqc@smtp.gmail.com');
+
+        var textBody = 'Bonjour ' + userInput.firstname + '\n\n';
+        textBody += 'http://localhost/confirm-account?id=' + confirmationString + '\n';
+
+        var htmlBoody = '<p>Bonjour ' + userInput.firstname + '<br><br>';
+        htmlBoody += 'Veuillez <a href="http://localhost/confirm-account?id=' + confirmationString + '">confirmer votre inscription</a><br>';
+
+        var emailContent = {
+          text: textBody,
+          html: htmlBoody
+        }
+        // setup e-mail data with unicode symbols
+        var mailOptions = {
+          from: '"SocialBot" <sebastienguillon@gmail.com>', // sender address
+          to: userInput.username, // list of receivers
+          subject: userInput.firstname + ' ' + userInput.lastname + ', finalisez votre inscription ❤', // Subject line
+          text: emailContent.text, // plaintext body
+          html: emailContent.html // html body
+        };
+
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+            return console.log(error);
+          }
+          console.log('Message sent: ' + info.response);
         });
 
+        req.flash('signupConfirmEmail', userInput.username);
+        res.json({
+          status: 'success'
+        });
       }
-
-      // User registered, send confirmation e-mail
-      var nodemailer = require('nodemailer');
-      process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
-      var transporter = nodemailer.createTransport('smtps://sebastienguillon%40gmail.com:kjxwbbqoadqzotqc@smtp.gmail.com');
-
-      var textBody = 'Bonjour ' + userInput.firstname + '\n\n';
-      textBody += 'http://localhost/confirm-account?id=' + confirmationString + '\n';
-
-      var htmlBoody = '<p>Bonjour ' + userInput.firstname + '<br><br>';
-      htmlBoody += 'Veuillez <a href="http://localhost/confirm-account?id=' + confirmationString + '">confirmer votre inscription</a><br>';
-
-      var emailContent = {
-        text: textBody,
-        html: htmlBoody
-      }
-      // setup e-mail data with unicode symbols
-      var mailOptions = {
-        from: '"SocialBot" <sebastienguillon@gmail.com>', // sender address
-        to: 'sebastienguillon@gmail.com', // list of receivers
-        subject: userInput.firstname + ' ' + userInput.lastname + ', finalisez votre inscription ❤', // Subject line
-        text: emailContent.text, // plaintext body
-        html: emailContent.html // html body
-      };
-
-      // send mail with defined transport object
-      transporter.sendMail(mailOptions, function(error, info){
-        if(error){
-          return console.log(error);
-        }
-        console.log('Message sent: ' + info.response);
-      });
-
-
+/*
       passport.authenticate('local')(req, res, function () {
         //res.redirect('/');
         res.json({
           status: 'success'
         });
       });
+*/
     });
 
   }

@@ -5,16 +5,17 @@ header.top-bar
         li.menu-text
           a(href="/") JS net
 
-        li
-          a(href="#") One
+        if req && req.user
+          li
+            a(href="/user/" + req.user.uid)
+              = req.user.firstname + ' ' + req.user.lastname
 
-          ul.menu.vertical
-            li
-              a(href="/about") about
-            li
-              a(href="#") Two
-            li
-              a(href="#") Three
+            ul.menu.vertical
+              li
+                a(href="/profile") Profile
+              li
+                a(href="/logout") Déconnexion
+
         unless req && req.user
           li
             a(href="/login") Connexion
@@ -23,20 +24,8 @@ header.top-bar
 
     div.top-bar-right
       if req && req.user
-        if req.user.username
-          span
-            a(href="/user/" + req.user.uid)
-              = req.user.firstname + ' ' + req.user.lastname
-
-          span
-            a(href="/logout") déconnexion
-        else
-          ="Vous êtes connecté mais je ne connais pas votre nom"
-      else
-        <!--NOT logged in-->
-
-      ul.menu
-        li
-          input(type="search", placeholder="Search")
-        li
-          button(type="button", class="button") Search
+        ul.menu
+          li
+            input(type="search", placeholder="Search")
+          li
+            button(type="button", class="button") Search

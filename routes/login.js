@@ -6,7 +6,7 @@ var User = require('../models/user');
 router.get('/', function(req, res) {
 
   if (req.user) {
-    res.redirect('/user/' + req.user.username);
+    res.redirect('/user/' + req.user.uid);
   }
 
   var loginErrorMsg = req.flash('loginError');
@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
   var obj = {
     title: 'Connexion',
     req: req
-  }
+  };
 
   if (loginErrorMsg != '') {
     obj.loginErrorMsg = loginErrorMsg
@@ -36,15 +36,23 @@ router.post('/', function(req, res, next) {
     if (!user) {
       req.flash('loginError', 'Nom d’utilisateur ou mot de passe incorrect.');
       return res.redirect('/login');
+    } else {
+
+      if (user.confirmed === false) {
+        req.flash('loginError', 'Veuillez confirmer votre compte.');
+        return res.redirect('/login');
+      } else {
+        req.logIn(user, function(err) {
+          if (err) {
+            return next(err);
+          }
+
+          //return res.redirect('/user/' + user.uid);
+          return res.redirect('/');
+        });
+      }
     }
 
-    req.logIn(user, function(err) {
-      if (err) {
-        return next(err);
-      }
-
-      return res.redirect('/user/' + user.username);
-    });
   })(req, res, next);
 });
 

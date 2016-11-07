@@ -32,21 +32,20 @@ div(ng-controller="signupController as signupCtrl")
     div.row
       div.small-12.columns(class=(formMessages && formMessages.username) ? 'field-error' : '')
         label(for="username") Adresse e-mail
-        input(type="email", id="username", name="username", required="required", value=formData.username, ng-model="signupCtrl.formData.username")
+        input(type="email", id="username", name="username", required="required", value=formData.username, ng-model="signupCtrl.formData.username", compare-to-exists="signupCtrl.formData.usernameTaken")
         div(ng-messages="signupCtrl.signupForm.username.$error", ng-if="signupCtrl.signupForm.username.$dirty", role="alert")
           p.callout.alert(ng-message="required") Veuillez saisir votre adresse e-mail.
+          p.callout.alert(ng-message="email") Cette adresse e-mail est invalide.
+          p.callout.alert(ng-message="compareToExists") Cette adresse e-mail est déjà utilisée.
 
     div.row
       div.small-12.columns(class=(formMessages && formMessages['username-repeat']) ? 'field-error' : '')
         label(for="username-repeat") Adresse e-mail (confirmation)
-        input(type="email", id="username-repeat", name="username-repeat", required="required", value=formData['username-repeat'], ng-model="signupCtrl.formData['username-repeat']")
+        input(type="email", id="username-repeat", name="username-repeat", required="required", value=formData['username-repeat'], ng-model="signupCtrl.formData['username-repeat']", compare-to="signupCtrl.formData.username")
         div(ng-messages="signupCtrl.signupForm['username-repeat'].$error", ng-if="signupCtrl.signupForm['username-repeat'].$dirty", role="alert")
           p.callout.alert(ng-message="required") Veuillez confirmer votre adresse e-mail.
-
-        // -
-          if formErrors
-            if formErrors.usernameTaken
-              p= formErrors.usernameTaken
+          p.callout.alert(ng-message="compareTo") Les adresses e-mail ne correspondent pas
+          // p.callout.alert(ng-message-exp="signupCtrl.usernameMismatch()") Les adresses e-mail ne correspondent pas
 
     div.row
       div.small-12.columns(class=(formMessages && formMessages.password) ? 'field-error' : '')

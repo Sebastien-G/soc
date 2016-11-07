@@ -29,6 +29,7 @@ var LocalStrategy = require('passport-local').Strategy;
 
 // Mongoose
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/socTest');
 
 var app = express();
@@ -83,8 +84,11 @@ passport.deserializeUser(User.deserializeUser());
 // Routes
 app.use('/', require('./routes/index'));
 
+app.use('/about', require('./routes/about'));
+
 app.use('/signup', require('./routes/signup'));
 app.use('/user', require('./routes/user'));
+app.use('/profile', require('./routes/profile'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/confirm-account', require('./routes/confirmAccount'));
