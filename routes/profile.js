@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var path = require('path');
 var multer = require('multer');
 
 router.get('/', function(req, res, next) {
@@ -26,7 +27,7 @@ router.post('/picture', function(req, res, next) {
 
   var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, '/uploads/');
+      cb(null, path.join(__dirname, '../public/images'));
     },
     filename: function (req, file, cb) {
       var datetimestamp = Date.now();
@@ -38,8 +39,9 @@ router.post('/picture', function(req, res, next) {
     storage: storage
   }).single('file');
 
-  upload(req,res,function(err) {
+  upload(req, res, function(err) {
     if (err) {
+      console.log(err);
       res.json({
         error_code: 1,
         err_desc: err
