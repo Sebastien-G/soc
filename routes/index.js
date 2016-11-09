@@ -25,7 +25,6 @@ router.get('/', function(req, res, next) {
         obj.accountConfirmed = userId
       }
     }
-
   }
 
   res.render('index', obj);

@@ -27,35 +27,15 @@ block content
       button.close-button(aria-label="Close alert", type="button", data-close)
         span(aria-hidden="true") &times;
       h3 Bienvenue&nbsp;!
-      p Votre compte a été confirmé (vous avez été connecté(e) automatiquement)
+      p Votre compte a été confirmé
+      p
+        em (vous avez été connecté(e) automatiquement)
 
 
 
   if req && req.user
 
-    div(ng-controller="postController as postCtrl")
-      form(name="postCtrl.postForm", ng-submit="postCtrl.postForm.$valid && postCtrl.save()", novalidate)
-        div.row
-          div.small-12.columns
-            label(for="message") Message
-            textarea.post(id="message", name="message", required="required", ng-model="postCtrl.formData.message")
-            // div(ng-messages="postCtrl.postForm.message.$error", ng-if="postCtrl.postForm.message.$dirty", role="alert")
-              p.callout.alert(ng-message="required") Veuillez saisir une description.
-            input.button.expanded(type="submit", value="Publier")
-
-      div.row
-        div.small-12.columns
-          div(ng-show="postCtrl.newPosts.length")
-            a(ng-click="postCtrl.addNewPosts()") {{ postCtrl.nbNewPosts }} nouveau(x) message(s)
-          div(ng-repeat="post in postCtrl.posts", ng-model="postCtrl.posts")
-            div
-              | {{post.firstname}}
-              = ' '
-              | {{post.lastname}}
-              = ', '
-              | {{post.publicationDate}}
-            div
-              | {{post.content}}
+    include ./includes/post_form.pug
 
   else
     // include ./includes/signup_form.pug

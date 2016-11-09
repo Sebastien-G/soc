@@ -1,14 +1,32 @@
-header.top-bar
+header.top-bar(ng-controller="tooltipsController as tooltipsCtrl")
   div.wrapper
     div.top-bar-left
-      ul.dropdown.menu(data-dropdown-menu)
+      ul.dropdown.menu(data-dropdown-menu, data-disable-hover="true")
         li.menu-text
           a(href="/") JS net
 
         if req && req.user
+
           li
-            a(href="/user/" + req.user.uid)
+            input(type="search", placeholder="Search")
+          li
+            button(type="button", class="button") Search
+
+          li
+            a(href="/user/" + req.user.uid, tooltip="{{tooltipsCtrl.header.profile}}", tooltip-placement="bottom")
               = req.user.firstname + ' ' + req.user.lastname
+
+          li
+            a(tooltip="{{tooltipsCtrl.header.invitations}}", tooltip-placement="bottom")
+             i.fa.fa-user-circle-o
+
+          li
+            a(tooltip="{{tooltipsCtrl.header.messages}}", tooltip-placement="bottom")
+             i.fa.fa-comments
+
+          li
+            a(tooltip="{{tooltipsCtrl.header.params}}", tooltip-placement="bottom")
+              i.fa.fa-cog
 
             ul.menu.vertical
               li
@@ -22,10 +40,10 @@ header.top-bar
           li
             a(href="/signup") Inscription
 
-    div.top-bar-right
-      if req && req.user
-        ul.menu
-          li
-            input(type="search", placeholder="Search")
-          li
-            button(type="button", class="button") Search
+    //- div.top-bar-right
+    //-   if req && req.user
+    //-     ul.menu
+    //-       li
+    //-         input(type="search", placeholder="Search")
+    //-       li
+    //-         button(type="button", class="button") Search
