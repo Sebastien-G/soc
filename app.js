@@ -93,6 +93,8 @@ app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/confirm-account', require('./routes/confirmAccount'));
 
+app.use('/post', require('./routes/post'));
+
 app.use('/admin', require('./routes/admin'));
 
 // catch 404 and forward to error handler
