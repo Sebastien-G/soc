@@ -1,7 +1,7 @@
 (function() {
   'use strict';
 
-  var app = angular.module('app', ['mm.foundation', 'ngMessages']);
+  var app = angular.module('app', ['mm.foundation', 'ngMessages', 'angucomplete-alt']);
 
   app.config(function () {
     //
@@ -16,6 +16,15 @@
     }
     // this.dynamicTooltipText = 'dynamic';
     // this.htmlTooltip = "I've been made <b>bold</b>!";
+  }]);
+
+
+  app.controller('searchController', ['$scope', '$http', '$rootScope', '$log', function ($scope, $http, $rootScope, $log) {
+    var self = this;
+
+    this.selectedObjectCallback = function() {
+      $log.debug('selectedObjectCallback');
+    }
   }]);
 
   //var appControllers = angular.module('app.controllers', [])

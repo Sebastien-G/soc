@@ -12,20 +12,6 @@ var flash = require('connect-flash');
 // Passport
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-// passport.use(new LocalStrategy(
-//   function(username, password, done) {
-//     User.findOne({ username: username }, function (err, user) {
-//       if (err) { return done(err); }
-//       if (!user) {
-//         return done(null, false, { message: 'Incorrect username.' });
-//       }
-//       if (!user.validPassword(password)) {
-//         return done(null, false, { message: 'Incorrect password.' });
-//       }
-//       return done(null, user);
-//     });
-//   }
-// ));
 
 // Mongoose
 var mongoose = require('mongoose');
@@ -46,17 +32,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-/*
-app.use(require('node-sass-middleware')({
-  src: path.join(__dirname, 'scss'),
-  dest: path.join(__dirname, 'public'),
-  includePaths:[path.join(__dirname, 'node_modules/foundation-sites/assets/')],
-  indentedSyntax: true,
-  sourceMap: true
-}));
-*/
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 // Start: added per:
 // http://mherman.org/blog/2013/11/11/user-authentication-with-passport-dot-js/#.WBV-Y-2KRi9
@@ -94,6 +70,8 @@ app.use('/logout', require('./routes/logout'));
 app.use('/confirm-account', require('./routes/confirmAccount'));
 
 app.use('/post', require('./routes/post'));
+
+app.use('/q', require('./routes/q'));
 
 app.use('/admin', require('./routes/admin'));
 

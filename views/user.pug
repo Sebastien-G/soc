@@ -1,12 +1,9 @@
 extends default_layout
 
-block angularControllers
-  script(src="/javascripts/profile-controller.js")
-
 block content
 
   if req && req.user
-    h1 Profile de l'utilisateur XXX
+    h1= user.firstname + ' ' + user.lastname
 
   else
     p You will be escorted out

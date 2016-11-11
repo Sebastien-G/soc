@@ -1,9 +1,18 @@
 var mongoose = require('mongoose');
 var shortid = require('shortid');
-var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
-var userSchema = new Schema({
+// Start: FoF config
+var fofOptions = {
+    personModelName: 'User',
+    friendshipModelName: 'Friendship',
+    friendshipCollectionName: 'friendships'
+};
+var FriendsOfFriends = require('friends-of-friends')(mongoose, fofOptions);
+// End: FoF config
+
+
+var userSchema = new mongoose.Schema({
     uid: {
       type: String,
       required: true,
@@ -66,4 +75,6 @@ userSchema.plugin(passportLocalMongoose,  {
   saltlen: 40
 });
 
-module.exports = mongoose.model('User', userSchema);
+userSchema.plugin(FriendsOfFriends.plugin, fofOptions);
+
+module.exports = mongoose.model(fofOptions.personModelName, userSchema);

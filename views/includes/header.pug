@@ -8,14 +8,26 @@ header.top-bar(ng-controller="tooltipsController as tooltipsCtrl")
         if req && req.user
 
           li
-            input(type="search", placeholder="Search")
-          li
-            button(type="button", class="button") Search
+            div.input-group
+              angucomplete-alt.input-group-field(
+                id="q",
+                placeholder="Rechercher des amis",
+                pause="100",
+                selected-object="selectedObjectCallback",
+                remote-url="/q?q=",
+                remote-url-data-field="results",
+                title-field="name",
+                match-class="highlight",
+                description-field="email",
+                input-class="input-group-field"
+              )
+
+              button.input-group-button.button(type="submit", style="width:50px;")
+                i.fa.fa-search
 
           li
-            a(href="/user/" + req.user.uid, tooltip="{{tooltipsCtrl.header.profile}}", tooltip-placement="bottom")
+            a(href="/profile", tooltip="{{tooltipsCtrl.header.profile}}", tooltip-placement="bottom")
               = req.user.firstname + ' ' + req.user.lastname
-
           li
             a(tooltip="{{tooltipsCtrl.header.invitations}}", tooltip-placement="bottom")
              i.fa.fa-user-circle-o

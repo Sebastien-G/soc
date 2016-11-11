@@ -8,6 +8,55 @@ router.get('/', function(req, res, next) {
   if (!req.user) {
     res.redirect('/login');
   } else {
+
+    var User = require('../models/user');
+
+    // var BillGates = new User({
+    //   username: 'sebastienguillon+bill.gates@gmail.com'
+    // });
+
+    User.findOne({
+      username: 'sebastienguillon+bill.gates@gmail.com'
+    }, function(err, user) {
+      if (err) {
+        return handleError(err);
+      }
+
+      console.log(user);
+
+      //console.log('BillGates: ' + BillGates);
+      //console.log('typeof req.user._id: ' + typeof req.user._id);
+/*
+      req.user.friendRequest(user._id, function (err, request) {
+        if (err) {
+          console.log(err);
+          //throw err;
+        } else {
+          console.log(request);
+        }
+      });*/
+
+
+      //req.user.getSentRequests(req.user._id);
+
+          user.acceptRequest(req.user._id, function (err, friendship) {
+            if (err) {
+              console.log(err);
+              //throw err;
+            } else {
+              console.log('friendship', friendship);
+            }
+          });
+
+
+    });
+
+
+
+
+
+
+
     res.render('profile', {
       title: 'Mon profile',
       req: req
