@@ -1,0 +1,14 @@
+extends default_layout
+
+block content
+  h1= title
+
+  if req && req.user
+
+    each user in friends
+      p
+        a(href="/user/" + user.uid)
+          = user.firstname + ' ' + user.lastname
+
+  else
+    p You will be escorted out

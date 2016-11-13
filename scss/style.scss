@@ -15,10 +15,31 @@ body {
   width: 90%;
 }
 
+header.top-bar {
+  margin-bottom: 15px;
+}
+
 footer {
   background-color: #ccc;
   min-height: 400px;
 }
+
+.input-group.search-box {
+  margin-bottom: 0;
+}
+
+.menu > li > a img.profile-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 48px;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  // border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+
+
 
 // Following rules made obsolete by using Angular's ngMessages
 /*
@@ -77,4 +98,98 @@ textarea.post {
 .highlight {
   font-weight: bold;
   color: #f09;
+}
+
+
+
+
+/* Start: Motion UI */
+$motion-ui-classes: (
+  chain: true,
+  prefix: 'ng-',
+  active: '-active',
+);
+
+@import 'motion-ui/motion-ui';
+
+.tooltip {
+    @include mui-fade(
+      $state: in,
+      $duration: 0.25s,
+      $delay: 0s
+    );
+}
+
+.tooltip {
+    @include mui-fade(
+        $state: out,
+        $from: 1,
+        $to: 0,
+        $duration: 0.25s,
+        $delay: 0s
+    );
+}
+
+.reveal-overlay {
+    @include mui-fade($state: in);
+}
+
+.reveal-overlay {
+    @include mui-fade(
+        $state: out,
+        $from: 1,
+        $to: 0
+    );
+}
+
+.reveal {
+    @include mui-slide(
+        $state: in, // Specify in or out
+        $direction: down, // Can be top, right, bottom, or left
+        $fade: true, // If true, the element fades simultaneously
+        $duration: 0.25s,
+        $timing: cubic-bezier,
+        $delay: 0s
+    );
+}
+
+.reveal {
+    @include mui-zoom(
+        $state: out,
+        $from: 1,
+        $to: 0,
+        $duration: 0.25s
+    );
+}
+/* End: Motion UI */
+
+
+
+
+
+.angucomplete-dropdown {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  min-width: 300px;
+
+
+  overflow-y: auto;
+  max-height: 300px;
+}
+
+.angucomplete-row {
+  padding: 10px;
+  cursor: pointer;
+}
+.angucomplete-row:hover,
+.angucomplete-selected-row {
+  background-color: #efefef;
+
+}
+
+
+.user-header {
+  padding: 15px;
+  border: 1px solid #ddd;
 }

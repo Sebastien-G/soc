@@ -7,29 +7,31 @@ header.top-bar(ng-controller="tooltipsController as tooltipsCtrl")
 
         if req && req.user
 
-          li
-            div.input-group
+          li(ng-controller="searchController as searchCtrl")
+            div.input-group.search-box
               angucomplete-alt.input-group-field(
                 id="q",
                 placeholder="Rechercher des amis",
                 pause="100",
-                selected-object="selectedObjectCallback",
+                selected-object="searchCtrl.selectedObjectCallback",
                 remote-url="/q?q=",
                 remote-url-data-field="results",
-                title-field="name",
+                title-field="firstname,lastname",
                 match-class="highlight",
-                description-field="email",
-                input-class="input-group-field"
+                input-class="input-group-field",
+                minlength="1",
+                clear-selected="true"
               )
 
               button.input-group-button.button(type="submit", style="width:50px;")
                 i.fa.fa-search
 
           li
-            a(href="/profile", tooltip="{{tooltipsCtrl.header.profile}}", tooltip-placement="bottom")
+            a(href="/user/" + req.user.uid, tooltip="{{tooltipsCtrl.header.profile}}", tooltip-placement="bottom")
+              img.profile-pic(src=req.user.profilePic, alt="")
               = req.user.firstname + ' ' + req.user.lastname
           li
-            a(tooltip="{{tooltipsCtrl.header.invitations}}", tooltip-placement="bottom")
+            a(href="/invitations", tooltip="{{tooltipsCtrl.header.invitations}}", tooltip-placement="bottom")
              i.fa.fa-user-circle-o
 
           li
@@ -37,12 +39,12 @@ header.top-bar(ng-controller="tooltipsController as tooltipsCtrl")
              i.fa.fa-comments
 
           li
-            a(tooltip="{{tooltipsCtrl.header.params}}", tooltip-placement="bottom")
+            a
               i.fa.fa-cog
 
             ul.menu.vertical
               li
-                a(href="/profile") Profile
+                a(href="/profile") Mon compte
               li
                 a(href="/logout") Déconnexion
 

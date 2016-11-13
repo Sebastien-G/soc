@@ -1,0 +1,19 @@
+if req && req.user
+  section.user-header
+    h1= user.firstname + ' ' + user.lastname
+
+    //img(src="user")
+
+    if user.uid != req.user.uid
+      button-add-friend(data-uid=user.uid, data-friendship-status=user.friendshipStatus, data-action=user.addButtonAction)
+    //- button.button
+    //-   i.fa.fa-user-plus
+    //-   = " Ajouter"
+
+  ul.horizontal.menu(data-magellan)
+    li
+      a(href=user.userUrl) Journal
+    li
+      a(href=user.userUrl + '/about') À propos
+    li
+      a(href=user.userUrl + '/friends') Amis

@@ -1,0 +1,32 @@
+extends default_layout
+
+block content
+  h1= title
+
+  if req && req.user
+
+    h2 Invitations en attente
+
+    each user in invitations
+      h3
+        a(href="/user/" + user.uid)
+          = user.firstname + ' ' + user.lastname
+        = ' veut devenir votre ami'
+
+      div
+        button-add-friend(data-uid=user.uid, data-friendship-status=user.friendshipStatus, data-action=user.action)
+
+
+    h2 Invitations envoyées
+
+    each user in sentRequests
+      h3
+        a(href="/user/" + user.uid)
+          = user.firstname + ' ' + user.lastname
+
+      div
+        button-add-friend(data-uid=user.uid, data-friendship-status=user.friendshipStatus, data-action=user.action)
+
+
+  else
+    p You will be escorted out

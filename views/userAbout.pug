@@ -11,7 +11,14 @@ block content
 
   if req && req.user
 
-    include ./includes/post_form.pug
+    h2 À propos
+
+    div
+      if user.about == ''
+        em
+          = user.firstname + ' ' + user.lastname + ' n’a pas laissé de description'
+      else
+        user.about
 
   else
     p You will be escorted out

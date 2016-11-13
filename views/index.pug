@@ -13,7 +13,7 @@ block content
 
   if signupConfirmEmail
     div.callout.success(data-closable="slide-out-right")
-      button.close-button(aria-label="Close alert", type="button", data-close)
+      button.close-button(aria-label="Close alert", type="button", close="true")
         span(aria-hidden="true") &times;
       h3 Consultez votre messagerie
       p Un e-mail vous a été envoyé à
@@ -24,7 +24,7 @@ block content
 
   if accountConfirmed
     div.callout.success(data-closable="slide-out-right")
-      button.close-button(aria-label="Close alert", type="button", data-close)
+      button.close-button(aria-label="Close alert", type="button", close="true")
         span(aria-hidden="true") &times;
       h3 Bienvenue&nbsp;!
       p Votre compte a été confirmé

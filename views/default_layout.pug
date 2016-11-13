@@ -4,10 +4,6 @@ html(lang="fr")
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     link(rel='stylesheet', href='/stylesheets/foundation.min.css')
-
-    //link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css')
-    //link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css')
-
     link(rel='stylesheet', href='/stylesheets/style.min.css')
 
 
@@ -21,18 +17,11 @@ html(lang="fr")
       div.row
         div.small-12.medium-8.large-9.columns
           block content
+
         div.small-12.medium-4.large-3.columns
-          h3 Messages publiés
-          p xxx
-          h3 Membres connectés
-          p xxx
+          include ./includes/column.pug
 
     include ./includes/footer.pug
-
-  // Foundation
-  // script(src="/javascripts/foundation/jquery.js")
-  // script(src="/javascripts/foundation/what-input.js")
-  // script(src="/javascripts/foundation/foundation.js")
 
   // AngularJS
   script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js")
@@ -42,6 +31,8 @@ html(lang="fr")
   script(src="/javascripts/angular-foundation/angular-foundation.min.js")
   // Angucomplete Alt
   script(src="/javascripts/angucomplete-alt.min.js")
+  // Angular Animate
+  script(src="/javascripts/angular-animate.min.js")
 
   block angularModules
 

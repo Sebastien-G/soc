@@ -1,3 +1,12 @@
+/*
+Elon Musk
+Bill gates
+Steve Wozniak
+Douglas Crockford
+Brendan Eich
+Jeffrey Hawkins
+*/
+
 var compression = require('compression');
 var express = require('express');
 var session = require('express-session');
@@ -58,7 +67,21 @@ passport.deserializeUser(User.deserializeUser());
 // http://mherman.org/blog/2013/11/11/user-authentication-with-passport-dot-js/#.WBV-Y-2KRi9
 
 // Routes
+app.use(function (req, res, next) {
+  if (req.user) {
+    if (req.user.profilePicId) {
+      var filenameParts = req.user.profilePicId.split('.');
+      var fileName = filenameParts[0];
+      var fileExt = filenameParts[1];
+      req.user.profilePic = '/images/profile/' + fileName + '_50.' + fileExt;
+    }
+
+  }
+  next();
+})
 app.use('/', require('./routes/index'));
+
+app.use('/api', require('./routes/api'));
 
 app.use('/about', require('./routes/about'));
 
@@ -68,6 +91,9 @@ app.use('/profile', require('./routes/profile'));
 app.use('/login', require('./routes/login'));
 app.use('/logout', require('./routes/logout'));
 app.use('/confirm-account', require('./routes/confirmAccount'));
+
+app.use('/friends', require('./routes/friends'));
+app.use('/invitations', require('./routes/invitations'));
 
 app.use('/post', require('./routes/post'));
 
@@ -92,7 +118,8 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
-      error: err
+      error: err,
+      req: req
     });
   });
 }
@@ -103,7 +130,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: {}
+    error: {},
+    req: req
   });
 });
 

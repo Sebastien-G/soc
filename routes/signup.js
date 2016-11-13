@@ -211,11 +211,15 @@ router.post('/', function(req, res) {
 
         var transporter = nodemailer.createTransport('smtps://sebastienguillon%40gmail.com:kjxwbbqoadqzotqc@smtp.gmail.com');
 
-        var textBody = 'Bonjour ' + userInput.firstname + '\n\n';
-        textBody += 'http://localhost/confirm-account?id=' + confirmationString + '\n';
+        var textBody = 'Bonjour ' + userInput.firstname + ',\n\n';
+        textBody += 'Pour confirmer votre inscription sur soc.sebastienguillon.net, suivez le lien : ' + '\n';
+        textBody += 'http://soc.sebastienguillon.net/confirm-account?id=' + confirmationString + '\n\n';
+        textBody += 'Bonne journée ! 😉' + '\n';
 
-        var htmlBoody = '<p>Bonjour ' + userInput.firstname + '<br><br>';
-        htmlBoody += 'Veuillez <a href="http://localhost/confirm-account?id=' + confirmationString + '">confirmer votre inscription</a><br>';
+        var htmlBoody = '<a href="http://soc.sebastienguillon.net/""><img src="http://soc.sebastienguillon.net/images/logo_255.png" alt="" border="0"></a>';
+        htmlBoody += '<p>Bonjour ' + userInput.firstname + ',<br><br>';
+        htmlBoody += 'Veuillez <a href="http://soc.sebastienguillon.net/confirm-account?id=' + confirmationString + '">confirmer votre inscription</a>.<br><br>';
+        htmlBoody += 'Bonne journée&nbsp;! 😉<br>';
 
         var emailContent = {
           text: textBody,
@@ -225,7 +229,7 @@ router.post('/', function(req, res) {
         var mailOptions = {
           from: '"SocialBot" <sebastienguillon@gmail.com>', // sender address
           to: userInput.username, // list of receivers
-          subject: userInput.firstname + ' ' + userInput.lastname + ', finalisez votre inscription ❤', // Subject line
+          subject: '🔥 ' + userInput.firstname + ' ' + userInput.lastname + ', finalisez votre inscription', // Subject line
           text: emailContent.text, // plaintext body
           html: emailContent.html // html body
         };

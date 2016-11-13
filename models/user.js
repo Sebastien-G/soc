@@ -60,6 +60,10 @@ var userSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    profilePicId: {
+      type: String,
+      default: 'default.png'
+    },
     about: {
       type: String,
       default: ''

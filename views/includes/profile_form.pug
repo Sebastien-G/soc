@@ -11,12 +11,12 @@ form(ng-controller="pictureUploadController as pictureUploadCtrl" name="pictureU
      ngf-max-size="5MB"
   )
 
-  label Image thumbnail:
-  img(ngf-thumbnail="pictureUploadCtrl.file || '/thumb.jpg'")
+  label Aperçu :
+  img(ngf-thumbnail="pictureUploadCtrl.file || '" + req.user.profilePic + "'", width="300")
   i(ng-show="pictureUploadCtrl.upload_form.file.$error.required") required
-  i(ng-show="pictureUploadCtrl.upload_form.file.$error.maxSize") File too large {{pictureUploadCtrl.file.size / 1000000|number:1}}MB: max 20M
+  i(ng-show="pictureUploadCtrl.upload_form.file.$error.maxSize") File too large {{pictureUploadCtrl.file.size / 1000000|number:1}}MB: max 5M
 
-  button(type="submit", ng-click="pictureUploadCtrl.submitUpload()") submit
+  button.expanded.button(type="submit", ng-click="pictureUploadCtrl.submitUpload()") Envoyer
   p {{pictureUploadCtrl.progress}}
 
 
