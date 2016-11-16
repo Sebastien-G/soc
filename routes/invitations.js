@@ -1,13 +1,7 @@
 var express = require('express');
 var router = express.Router();
-// var path = require('path');
-// var multer = require('multer');
-// var randomUuid = require('random-uuid');
 var User = require('../models/user');
 var utils = require('../lib/utils');
-
-// API
-// - randomUuid([options]);
 
 
 router.get('/', function(req, res, next) {
@@ -23,7 +17,9 @@ router.get('/', function(req, res, next) {
     utils.getReceivedRequests(req.user).then(function(receivedRequests) {
       if (receivedRequests) {
         receivedRequests.forEach (function (user) {
+          utils.getProfilePic(user.requester);
           userInvitations.push({
+            profilePic: user.requester.profilePic,
             firstname: user.requester.firstname,
             lastname: user.requester.lastname,
             uid: user.requester.uid,
@@ -39,7 +35,9 @@ router.get('/', function(req, res, next) {
 
         if (sentRequests) {
           sentRequests.forEach (function (user) {
+            utils.getProfilePic(user.requested);
             userSentRequests.push({
+              profilePic: user.requested.profilePic,
               firstname: user.requested.firstname,
               lastname: user.requested.lastname,
               uid: user.requested.uid,

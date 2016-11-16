@@ -22,6 +22,43 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+
+/**
+ * Load socket.io
+ */
+
+//var io = require('socket.io').listen(server);
+var io = require('socket.io')(server);
+var passportSocketIo = require('passport.socketio');
+var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
+var mongoose = require('mongoose');
+
+io.use(passportSocketIo.authorize({
+  key: 'connect.sid',
+  secret: 'e!b(£6^§§914C9£5*01A$_b^284a*096(!6f0*1f!&849*3).',
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+  }),
+  success: function (data, accept) {
+    console.log('successful connection to socket.io');
+    accept();
+  },  // *optional* callback on success - read more below
+  fail: function (data, message, error, accept) {
+    console.log('Not authenticated in socket');
+    accept();
+  }
+}));
+
+
+/**
+ * Load squares socket.io app
+ */
+
+var activityMonitorIo = require('../sockets/activity-monitor.js')(io);
+var chatIo = require('../sockets/chat.js')(io);
+
+
 /**
  * Listen on provided port, on all network interfaces.
  */

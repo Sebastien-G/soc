@@ -1,0 +1,32 @@
+extends default_layout
+
+block angularControllers
+  if req && req.user
+    script(src="/javascripts/tmp_chat.js")
+
+block content
+  h1= title
+
+  div.row(ng-controller="chatController as chatCtrl")
+    div.small-12.medium-8.large-9.columns
+      h3 Messages
+      .overflowable
+        p(ng-repeat='message in messages') :
+
+    div.small-12.medium-4.large-3.columns
+      h3 Users
+      .overflowable
+        p(ng-repeat='user in users')
+
+  div.clr
+    form(ng-submit='sendMessage()')
+      | Message:
+      input(size='60', ng-model='message')
+      input(type='submit', value='Send')
+
+  div.clr
+    h3 Change your name
+    p Your current user name is
+    form(ng-submit='changeName()')
+      input(ng-model='newName')
+      input(type='submit', value='Change Name')

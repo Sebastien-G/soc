@@ -10,6 +10,7 @@ block content
     each user in invitations
       h3
         a(href="/user/" + user.uid)
+          img.profile-pic(src=user.profilePic)
           = user.firstname + ' ' + user.lastname
         = ' veut devenir votre ami'
 
@@ -22,6 +23,7 @@ block content
     each user in sentRequests
       h3
         a(href="/user/" + user.uid)
+          img.profile-pic(src=user.profilePic)
           = user.firstname + ' ' + user.lastname
 
       div

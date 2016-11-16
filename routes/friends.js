@@ -16,11 +16,9 @@ router.get('/', function(req, res, next) {
     var userFriends = [];
 
     utils.getFriends(req.user).then(function(friends) {
-      console.log('friends');
-      console.log(friends);
-
       if (friends) {
         friends.forEach (function (user) {
+          utils.getProfilePic(user);
           userFriends.push(user);
         });
       }
@@ -30,8 +28,7 @@ router.get('/', function(req, res, next) {
         req: req,
         friends: userFriends
       });
-
-    });
+    }); // utils.getFriends
 
 
   } // auth

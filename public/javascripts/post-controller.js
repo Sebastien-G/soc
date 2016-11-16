@@ -3,16 +3,19 @@
 
   var sgPostModule = angular.module('sgPostModule', [])
   .controller('postController', ['$http', '$log', '$q', '$interval', function($http, $log, $q, $interval) {
-    var debug = true;
+    var debug = false;
     var self = this;
 
-    $log.debug('post contrtoller instanciated');
+    debug && $log.debug('post contrtoller instanciated');
     this.posts = [];
     this.newPosts = [];
     this.nbNewPosts = 0;
+    this.alertTextSingular = 'nouveau message';
+    this.alertTextPlural = 'nouveaux messages';
+    this.alertText = this.alertTextSingular;
 
     this.formData = {
-      'message': 'nothing'
+      'message': ''
     };
 
     this.getPosts = function(initial) {
@@ -21,7 +24,7 @@
         url: '/post',
         data : self.formData
       }).then(function (response) {
-        $log.debug('initial: ' + initial);
+        debug && $log.debug('initial: ' + initial);
         if (initial) {
 
           $log.debug('response.data.posts');
@@ -29,6 +32,15 @@
         } else {
           if (response.data.posts.length > self.posts.length ) {
             self.newPosts = response.data.posts;
+
+            if (self.newPosts.length > 0) {
+              self.nbNewPosts = self.newPosts.length - self.posts.length;
+              if (self.nbNewPosts === 1) {
+                self.alertText = self.alertTextSingular;
+              } else {
+                self.alertText = self.alertTextPlural;
+              }
+            }
           }
         }
       }, function (response) {
@@ -47,10 +59,8 @@
 
       $interval(function () {
         self.getPosts(false);
-        if (self.newPosts.length > 0) {
-          self.nbNewPosts = self.newPosts.length - self.posts.length;
-        }
-        $log.debug('Yo!');
+
+        // debug && $log.debug('Yo!');
       }, 5000);
     }
     this.init();
@@ -70,6 +80,7 @@
           $log.debug('Crap');
         }
         if (response.data.status === 'success') {
+          self.formData.message = '';
           self.posts = response.data.posts;
           $log.debug(self.posts);
         }

@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var User = require('../models/user');
+var utils = require('../lib/utils');
+
 
 router.get('/', function(req, res) {
 
@@ -46,6 +48,24 @@ router.post('/', function(req, res, next) {
           if (err) {
             return next(err);
           }
+
+          var profilePicUid = utils.getProfilePic(user);
+          var userConnection = {
+            profilePic: user.profilePic,
+            profilePicUid: profilePicUid,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            uid: user.uid,
+            user_id: user._id,
+            loginDate: Date.now()
+          }
+
+          if (req.app.locals.loggedInUsers.hasOwnProperty(user.uid)) {
+            req.app.locals.loggedInUsers[user.uid].loginDate = Date.now();
+          } else {
+            req.app.locals.loggedInUsers[user.uid] = userConnection;
+          }
+
 
           //return res.redirect('/user/' + user.uid);
           return res.redirect('/');

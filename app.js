@@ -17,6 +17,7 @@ var logger = require('morgan'); // use it or lose it
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var flash = require('connect-flash');
+var chalk = require('chalk');
 
 // Passport
 var passport = require('passport');
@@ -68,11 +69,19 @@ passport.deserializeUser(User.deserializeUser());
 
 // Routes
 app.use(function (req, res, next) {
+  if (app.locals.loggedInUsers === undefined) {
+    app.locals.loggedInUsers = {};
+  }
+
+  // console.log(chalk.blue('app.locals.loggedInUsers'));
+  // console.log(app.locals.loggedInUsers);
+
   if (req.user) {
     if (req.user.profilePicId) {
       var filenameParts = req.user.profilePicId.split('.');
       var fileName = filenameParts[0];
       var fileExt = filenameParts[1];
+      req.user.profilePicUid = fileName;
       req.user.profilePic = '/images/profile/' + fileName + '_50.' + fileExt;
     }
 
@@ -85,6 +94,8 @@ app.use('/api', require('./routes/api'));
 
 app.use('/about', require('./routes/about'));
 
+app.use('/messages', require('./routes/messages'));
+
 app.use('/signup', require('./routes/signup'));
 app.use('/user', require('./routes/user'));
 app.use('/profile', require('./routes/profile'));
@@ -94,6 +105,8 @@ app.use('/confirm-account', require('./routes/confirmAccount'));
 
 app.use('/friends', require('./routes/friends'));
 app.use('/invitations', require('./routes/invitations'));
+
+app.use('/chat', require('./routes/chat'));
 
 app.use('/post', require('./routes/post'));
 

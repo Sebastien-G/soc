@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
 
   var obj = {
-    title: 'Social Network about nothing',
+    title: 'SG Net',
     req: req
   };
 

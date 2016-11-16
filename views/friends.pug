@@ -8,6 +8,7 @@ block content
     each user in friends
       p
         a(href="/user/" + user.uid)
+          div.profile-pic(style="background-image: url('" + user.profilePic + "')")
           = user.firstname + ' ' + user.lastname
 
   else
