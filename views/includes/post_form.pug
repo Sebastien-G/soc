@@ -5,8 +5,6 @@ div(ng-controller="postController as postCtrl")
         div.post-form
           label(for="message") Écrivez un message pour tous vos amis
           textarea.post(id="message", name="message", required="required", ng-model="postCtrl.formData.message")
-          // div(ng-messages="postCtrl.postForm.message.$error", ng-if="postCtrl.postForm.message.$dirty", role="alert")
-            p.callout.alert(ng-message="required") Veuillez saisir une description.
           div.text-right
             button.button(type="submit")
               i.fa.fa-globe
@@ -17,11 +15,17 @@ div(ng-controller="postController as postCtrl")
 
       div(ng-show="postCtrl.newPosts.length")
         button.button.success.expanded(ng-click="postCtrl.addNewPosts()") {{ postCtrl.nbNewPosts }} {{ postCtrl.alertText }}
-      div.post(ng-repeat="post in postCtrl.posts", ng-model="postCtrl.posts")
+      div.post(ng-repeat="post in postCtrl.posts track by $index")
         div.post-meta
-          a.post-author(href="/user/{{post.uid}}" )
+          a.post-author(ng-href="/user/{{post.uid}}" )
+            div.profile-pic(ng-style!="{'background-image' : 'url(/images/profile/{{post.profilePic}})'}")
+
+
+
             = '{{post.firstname}} {{post.lastname}}'
             = ', '
           span.post-date le {{post.publicationDate | date:'dd/MM/yyyy à HH:mm:ss'}}
         div.post-content
           | {{post.content}}
+
+// , ng-model="{postCtrl.posts}"

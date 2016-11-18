@@ -1,21 +1,26 @@
 angular.module('app.directives', [])
 
-.directive('friendIcon', ['$log', function($log) {
+.directive('friendBadge', ['$log', function($log) {
   return {
     restrict: 'E',
-    /*scope: {
+    link: function (scope, element, attrs) {
+      element.on('click', function() {
+      });
+    },
+    scope: {
       uid: '@',
-      action: '@',
-      friendshipStatus: '@'
-    },*/
+      firstname: '@',
+      lastname: '@',
+      profilePic: '@'
+    },
     controller: ['$log', function($log) {
       var self = this;
       var debug = true;
     }],
-    controllerAs: 'friendIconCtrl',
-    templateUrl: '/templates/friend-icon.html',
+    controllerAs: 'friendBadgeCtrl',
+    templateUrl: '/templates/friend-badge.html',
     bindToController: true
-  }
+  };
 }])
 
 .directive('buttonAddFriend', ['$timeout', '$log', function($timeout, $log) {

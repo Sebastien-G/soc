@@ -55,6 +55,7 @@ router.post('/', function(req, res, next) {
       uid: req.user.uid,
       user_id: req.user._id,
       content: req.body.message,
+      profilePic: req.user.profilePic,
       firstname: req.user.firstname,
       lastname: req.user.lastname
     };

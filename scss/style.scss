@@ -1,6 +1,7 @@
 
-$primary-color: #0ba8c7;
-
+$primary-color: #0ba8c7; // rgb(11, 168, 199)
+$vibrant-color: #f26522; // rgb(242, 101, 34)
+$success-color: #a8c70b;
 a {
   color: $primary-color;
 }
@@ -16,11 +17,12 @@ body {
 }
 
 header.top-bar {
-  margin-bottom: 15px;
+  margin-bottom: 30px;
+  border-bottom: 5px solid darken($vibrant-color, 10%);
 }
 header.top-bar,
 header.top-bar ul {
-background-color: #0ba8c7;
+  background-color: $vibrant-color;
 }
 
 header.top-bar a,
@@ -31,14 +33,18 @@ header.top-bar a:focus {
   color: #fff;
 }
 
-.dropdown.menu>li.is-dropdown-submenu-parent>:after * {
-  color: #fff!important;
+.dropdown.menu>li.is-dropdown-submenu-parent>a:after {
+  border-color: rgba(#fff, 0.25) transparent transparent;
+  right: 10px;
+}
+.dropdown.menu>li.is-dropdown-submenu-parent>a:hover:after {
+  border-color: #fff transparent transparent;
 }
 
 header.top-bar .icon {
   font-size: 2rem;
 
-  color: rgba(11, 168, 199, 0.8);
+  color: rgba($vibrant-color, 0.8);
   text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.33), 0 0 0 #000, 0px 1px 2px rgba(222, 222, 222, 0.5);
 }
 
@@ -49,7 +55,7 @@ header.top-bar a {
 
 .menu > li.menu-text > a {
   margin-right: 30px;
-  transform: rotate(-10deg);
+  transform: rotate(-22.5deg);
   -webkit-transition: all 0.66s ease;
   transition: all 0.66s ease;
 }
@@ -99,21 +105,35 @@ input#q_value:focus {
   min-height: 400px;
 }
 
+aside.main-aside {
+  background-color: #efefef;
+}
+
+
+
+
 footer {
-  background-color: #a8c70b;
+  // background-color: #a8c70b;
+  background-color: #888;
   border-top: 1px solid #aaa;
-  color: #888;
+  color: #aaa;
   min-height: 300px;
   padding: 0 0 50px 0;
   margin-top: 50px;
 }
 footer a:link,
 footer a:visited {
-  color: #666;
+  color: #ddd;
 }
 footer a:hover,
 footer a:focus {
-  color: $primary-color;
+  color: $success-color;
+}
+
+.footer-logo {
+  margin-top: 30px;
+  opacity: 0.25;
+  transform: rotate(-22.5deg);
 }
 
 footer .grad {
@@ -132,52 +152,31 @@ footer .grad {
 
 
 .menu > li > a div.profile-pic {
+  /*display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin-right: 0.5rem;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  vertical-align: middle;*/
+}
+
+
+.profile-pic {
   display: inline-block;
-  width: 40px; height: 40px;
+  width: 40px;
+  height: 40px;
+  margin-right: 0.5rem;
   border-radius: 50%;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
   vertical-align: middle;
-
-/*
-  width: 40px;
-  height: 40px;
-  border-radius: 48px;
-  vertical-align: middle;
-  margin-right: 0.5rem;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-*/
-  // border: 1px solid rgba(0, 0, 0, 0.5);
 }
-
-div.profile-pic {
-
-  display: inline-block;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  margin-right: 0.5rem;
-
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-  vertical-align: middle;
-
-/*
-  width: 40px;
-  height: 40px;
-  border-radius: 48px;
-  vertical-align: middle;
-  margin-right: 0.5rem;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-*/
-  // border: 1px solid rgba(0, 0, 0, 0.5);
-}
-
-
-
 
 
 /*
@@ -208,9 +207,55 @@ End:
 Angular form stuff
 */
 
-textarea.post {
-  min-height: 5em;
+
+
+
+
+
+a.user-badge {
+  background-color: #fff;
+  display: inline-block;
+  max-width: 240px;
+  width: 100%;
+  height: 50px;
+  padding: 5px;
+  box-shadow: 0px 0px 1px rgba(92, 92, 92, 0.33);
+  text-decoration: none;
 }
+a.user-badge:hover {
+  background-color: $primary-color;
+  color: #fff;
+}
+/*a.user-badge .profile-pic {
+  box-shadow: 2px 3px 5px rgba(92, 92, 92, 0.33);
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}*/
+
+
+ul.friends-list,
+ul.online-friends {
+  list-style-type: none;
+  margin: 0 0 1rem 0;
+  padding: 0;
+}
+ul.friends-list li,
+ul.online-friends li {
+  display: block;
+  min-height: 60px;
+  margin-bottom: 2px;
+  padding: 0;
+}
+
+
+
+
+
+
 
 
 /* Start: Motion UI */
@@ -310,15 +355,23 @@ $motion-ui-classes: (
 
 .user-header {
   padding: 15px;
-  border: 1px solid #ddd;
+  background-color: #999;
+  color:#fff;
 }
 
 
 
 .post-form {
   padding: 15px 15px 0 15px;
-  background-color: #efefef;
+  background-color: $success-color;
+  color: #fff;
   margin-bottom: 60px;
+}
+.post-form label {
+  color: #fff;
+}
+textarea.post {
+  min-height: 5em;
 }
 
 .post {
@@ -327,6 +380,15 @@ $motion-ui-classes: (
 .post-meta {
   margin-bottom: 5px;
 }
+/*.post-meta .profile-pic {
+  box-shadow: 2px 3px 5px rgba(92, 92, 92, 0.33);
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}*/
 
 .post-date {
   color: #999;
@@ -337,4 +399,33 @@ $motion-ui-classes: (
 .post-content {
   background-color: #efefef;
   padding: 15px;
+  border-radius: 15px;
+  border-top-left-radius: 0;
 }
+
+/* Start: chat */
+.reveal {
+  color: #fff;
+  background-color: $primary-color;
+  border: none;
+}
+.reveal .close-button {
+  color: #fff;
+}
+.chat-content {
+  border: 1px solid #ddd;
+  padding: 15px;
+  color: #333;
+  background-color: #fff;
+
+  min-height: 200px;
+  overflow: auto;
+  margin-bottom: 15px;
+}
+
+.chat-message textarea {
+
+}
+
+
+/* End: chat */

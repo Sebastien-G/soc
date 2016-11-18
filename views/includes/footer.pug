@@ -8,13 +8,16 @@ footer
           a(href="https://github.com/Sebastien-G")
             i(class="fa fa-github", aria-hidden="true")
             =" GitHub"
-
-      div.small-12.medium-4.columns
         p
           a(href="/about")
             i(class="fa fa-quote-left", aria-hidden="true")
             =" À propos de ce réseau social"
 
+      div.small-12.medium-4.columns.text-center
+        img.footer-logo(src="/images/footer-logo.png", alt="")
+
       div.small-12.medium-4.columns
 
-        p sebastienguillon.net © 2016
+        p.text-right sebastienguillon.net © 2016
+
+    div(ng-controlller="chatController as chatCtrl")

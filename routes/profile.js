@@ -117,6 +117,7 @@ router.post('/picture', function(req, res, next) {
       var filenameParts = req.file.filename.split('.');
       var fileName = filenameParts[0];
       var fileExt = filenameParts[1];
+      var profilePic = fileName + '_50.' + fileExt;
 
       var formats = [50, 100, 200, 300, 500, 1000];
       formats.forEach(function(size) {
@@ -129,6 +130,7 @@ router.post('/picture', function(req, res, next) {
 
 
       User.update({_id: req.user._id}, {
+        profilePic: profilePic,
         profilePicId: req.file.filename
       }, function(err, numberAffected, rawResponse) {
         res.json({

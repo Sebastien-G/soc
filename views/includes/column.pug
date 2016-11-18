@@ -1,29 +1,40 @@
 
-div(ng-controller="connectedController as connectedCtrl")
-  p(ng-bind="connectedCtrl.nbOnlineUserMessages") ...
-  p(ng-bind="connectedCtrl.nbLoggedInMessage") ...
+div(ng-controller="activityController as activityCtrl")
+  p(ng-bind="activityCtrl.nbOnlineUserMessages")
+
+  if req && req.user
+    p(ng-bind="activityCtrl.nbOthersLoggedInMessage")
+
+  else
+    p(ng-bind="activityCtrl.nbLoggedInMessage")
 
   if req && req.user
 
     h3 Amis en ligne
-    ul
-      li(ng-repeat="onlineFriend in connectedCtrl.onlineFriends track by $index")
-        friend-icon
-          // a(href="/user/" + onlineFriend.uid, ng-bind="onlineFriend.firstname + ' ' + onlineFriend.firstname") ...
-          // img.profile-pic(style="background-image: url('" + req.user.profilePic + "')")
+    ul.online-friends(ng-if="activityCtrl.onlineFriends")
+      li(ng-repeat="onlineFriend in activityCtrl.onlineFriends track by $index")
+        // friend-badge(data-uid="{{onlineFriend.uid}}", data-firstname="{{onlineFriend.firstname}}", data-lastname="{{onlineFriend.lastname}}", data-profile-pic="{{onlineFriend.profilePic}}")
+
+        a.user-badge(ng-href="/user/{{onlineFriend.uid}}")
+          span.profile-pic(ng-style="{'background-image':'url(/images/profile/{{onlineFriend.profilePic}})'}")
+          span(ng-bind="onlineFriend.firstname")
+          = " "
+          span(ng-bind="onlineFriend.lastname")
 
 
 
-          // = req.user.firstname + ' ' + req.user.lastname
+    div(ng-if="activityCtrl.onlineFriends.length < 1")
+      p
+        em Aucun ami connecté en ce moment
 
-    p
-      a(href="/friends") Tous mes amis
+    p.text-right
+      a(href="/friends")
+        i.fi-torsos-all
+        = " Tous mes amis"
 
+    div(ng-controller="chatController as chatCtrl")
 
 
 unless req && req.user
   p
     a(href="/login") Connectez-vous pour retrouver vos amis.
-
-//- div(ng-controller="activityController as activityCtrl")
-//-   p(ng-repeat="message in activityCtrl.messages | orderBy: reverse:true track by $index") {{message}}

@@ -50,7 +50,7 @@ header.top-bar(ng-controller="TopBarController as TopBarCtrl", id="main-menu")
 
           li.user-profile
             a(href="/user/" + req.user.uid, tooltip="{{TopBarCtrl.header.profile}}", tooltip-placement="bottom", tooltip-popup-delay="300")
-              div.profile-pic(style="background-image: url('" + req.user.profilePic + "')")
+              div.profile-pic(style="background-image: url('/images/profile/" + req.user.profilePic + "')")
               = req.user.firstname + ' ' + req.user.lastname
 
           li

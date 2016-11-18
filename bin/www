@@ -34,6 +34,23 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var mongoose = require('mongoose');
 
+io.of('/monitor').use(function(socket, next) {
+/*
+  var handshakeData = socket.request;
+
+  console.log('handshakeData >>>');
+  console.log(handshakeData.user);
+console.log('<<< handshakeData');
+*/
+
+
+  // make sure the handshake data looks good as before
+  // if error do this:
+    // next(new Error('not authorized');
+  // else just call next
+  next();
+});
+
 io.use(passportSocketIo.authorize({
   key: 'connect.sid',
   secret: 'e!b(£6^§§914C9£5*01A$_b^284a*096(!6f0*1f!&849*3).',
@@ -49,6 +66,7 @@ io.use(passportSocketIo.authorize({
     accept();
   }
 }));
+
 
 
 /**

@@ -27,7 +27,7 @@
         debug && $log.debug('initial: ' + initial);
         if (initial) {
 
-          $log.debug('response.data.posts');
+          debug && $log.debug('response.data.posts');
           self.posts = response.data.posts;
         } else {
           if (response.data.posts.length > self.posts.length ) {
@@ -66,8 +66,8 @@
     this.init();
 
     this.save = function() {
-      $log.debug('Post a post');
-      $log.debug(self.formData);
+      debug && $log.debug('Post a post');
+      debug && $log.debug(self.formData);
 
       $http({
         method: 'POST',
@@ -77,12 +77,12 @@
         debug && $log.debug('HTTP success');
         debug && $log.debug(response);
         if (response.data.status === 'error') {
-          $log.debug('Crap');
+          debug && $log.debug('Crap');
         }
         if (response.data.status === 'success') {
           self.formData.message = '';
           self.posts = response.data.posts;
-          $log.debug(self.posts);
+          debug && $log.debug(self.posts);
         }
       }, function (response) {
         debug && $log.debug('$http request error:');

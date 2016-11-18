@@ -6,14 +6,12 @@ if req && req.user
 
     if user.uid != req.user.uid
       button-add-friend(data-uid=user.uid, data-friendship-status=user.friendshipStatus, data-action=user.addButtonAction)
-    //- button.button
-    //-   i.fa.fa-user-plus
-    //-   = " Ajouter"
+      div(ng-controller="chatRequestController as chatRequestCtrl")
+        button.button(ng-click="chatRequestCtrl.request('" + req.user.uid + "', '" + user.uid + "')")
+          i.fa.fa-comment
+          = " Discussion instantanée"
 
-  ul.horizontal.menu(data-magellan)
-    li
-      a(href=user.userUrl) Journal
-    li
-      a(href=user.userUrl + '/about') À propos
-    li
-      a(href=user.userUrl + '/friends') Amis
+  nav.expanded.button-group
+    a.button(href=user.userUrl) Journal
+    a.button(href=user.userUrl + '/about') À propos
+    a.button(href=user.userUrl + '/friends') Amis

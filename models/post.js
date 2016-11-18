@@ -19,6 +19,10 @@ var postSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    profilePic: {
+      type: String,
+      required: true
+    },
     content: {
       type: String,
       required: true
@@ -27,6 +31,8 @@ var postSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     }
+}, {
+  collection: 'posts'
 });
 
 module.exports = mongoose.model('Post', postSchema);

@@ -82,7 +82,7 @@ app.use(function (req, res, next) {
       var fileName = filenameParts[0];
       var fileExt = filenameParts[1];
       req.user.profilePicUid = fileName;
-      req.user.profilePic = '/images/profile/' + fileName + '_50.' + fileExt;
+      req.user.profilePic = fileName + '_50.' + fileExt;
     }
 
   }

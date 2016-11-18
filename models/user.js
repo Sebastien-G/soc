@@ -60,6 +60,10 @@ var userSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    profilePic: {
+      type: String,
+      default: 'default_50.png'
+    },
     profilePicId: {
       type: String,
       default: 'default.png'
@@ -73,6 +77,8 @@ var userSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     }
+}, {
+  collection: 'users'
 });
 
 userSchema.plugin(passportLocalMongoose,  {

@@ -1,0 +1,26 @@
+<div class="chat-window">
+  <h3> Discussion instantanée</h3>
+
+  <button ng-click="chatModalCtrl.cancel()" class="close-button" aria-label="Close reveal" type="button">
+    <span aria-hidden="true"> &times;</span>
+  </button>
+
+  <div class="chat-content">
+    <table class="chat">
+      <thead>
+        <tr ng-repeat="message in chatModalCtrl.messages track by $index">
+          <th>{{message.from}}</th>
+          <td>{{message.content}}</td>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
+  <div class="chat-message">
+    <textarea id="chat-message" autofocus ng-model="chatModalCtrl.message" placeholder="chatModalCtrl.placeholder"></textarea>
+  </div>
+
+  <button ng-click="chatModalCtrl.send()" class="button" type="button">
+    <i class="fa fa-paper-plane"></i> Envoyer
+  </button>
+</div>
