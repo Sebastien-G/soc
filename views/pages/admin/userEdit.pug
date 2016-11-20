@@ -1,0 +1,62 @@
+extends ../../layouts/admin
+
+block angularControllers
+  script(src="/javascripts/admin/user-edit-controller.js")
+
+block content
+
+  a(href="/admin/") retour
+
+  h1= title
+
+  div.row.expanded
+    div(ng-controller="userEditController as userEditCtrl")
+
+      form(method="post", name="userEditCtrl.form", ng-submit="userEditCtrl.form.$valid && userEditCtrl.save()", novalidate)
+
+        div.row.expanded
+          div.small-4.columns(class=(formMessages && formMessages.firstname) ? 'field-error' : '')
+            label(for="firstname") Prénom
+            input(type="text", id="firstname", name="firstname", required="required", ng-model="userEditCtrl.formData.firstname", autofocus)
+            div(ng-messages="userEditCtrl.form.firstname.$error", ng-if="userEditCtrl.form.firstname.$dirty", role="alert")
+              p.callout.alert(ng-message="required") Veuillez saisir votre prénom.
+
+          div.small-4.columns(class=(formMessages && formMessages.lastname) ? 'field-error' : '')
+            label(for="lastname") Nom de famille
+            input(type="text", id="lastname", name="lastname", required="required", ng-model="userEditCtrl.formData.lastname")
+            div(ng-messages="userEditCtrl.form.lastname.$error", ng-if="userEditCtrl.form.lastname.$dirty", role="alert")
+              p.callout.alert(ng-message="required") Veuillez saisir votre nom de famille.
+
+
+          div.small-4.columns(class=(formMessages && formMessages.gender) ? 'field-error' : '')
+            label(for="gender") Sexe
+            select(id="gender", name="gender", required="required", ng-model="userEditCtrl.formData.gender")
+              option(value="male") Homme
+              option(value="female") Femme
+
+            div(ng-messages="userEditCtrl.form.gender.$error", ng-if="userEditCtrl.form.gender.$dirty", gender="alert")
+              p.callout.alert(ng-message="required") Vous devez spécifier un rôle.
+
+        div.row.expanded
+          div.small-6.large-4.columns(class=(formMessages && formMessages.username) ? 'field-error' : '')
+            label(for="username") Adresse e-mail
+            input(type="email", id="username", name="username", required="required", ng-model="userEditCtrl.formData.username")
+            div(ng-messages="userEditCtrl.form.username.$error", ng-if="userEditCtrl.form.username.$dirty", role="alert")
+              p.callout.alert(ng-message="required") Veuillez saisir votre adresse e-mail.
+              p.callout.alert(ng-message="email") Cette adresse e-mail est invalide.
+
+          div.small-6.large-4.columns(class=(formMessages && formMessages.role) ? 'field-error' : '')
+            label(for="role") Rôle
+            select(id="role", name="role", required="required", ng-model="userEditCtrl.formData.role")
+              option(value="user") Utilisateur
+              option(value="admin") Administrateur
+
+            div(ng-messages="userEditCtrl.form.role.$error", ng-if="userEditCtrl.form.role.$dirty", role="alert")
+              p.callout.alert(ng-message="required") Vous devez spécifier un rôle.
+
+          div.small-12.large-4.columns
+
+        div.row.expanded
+          div.small-12.columns
+            input.button.expanded.success(type="submit", value="Enregistrer", ng-disabled="userEditCtrl.form.$invalid")
+            input(type="hidden", value="Enregistrer", ng-model="userEditCtrl.formData._id")

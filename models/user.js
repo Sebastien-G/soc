@@ -13,70 +13,74 @@ var FriendsOfFriends = require('friends-of-friends')(mongoose, fofOptions);
 
 
 var userSchema = new mongoose.Schema({
-    uid: {
-      type: String,
-      required: true,
-      default: shortid.generate,
-      index: {
-        unique: true
-      }
-    },
-    confirmed: {
-      type: Boolean,
-      default: false
-    },
-    confirmationDate: {
-      type: Date,
-      default: null
-    },
-    confirmationString: {
-      type: String,
-      required: true
-    },
-    slug: {
-      type: String,
-      index: {
-        unique: true,
-        sparse: true
-      }
-    },
-    role: {
-      type: String,
-      required: true,
-      default: 'user'
-    },
-    username:  {
-      type: String,
-      required: true,
-      index: {
-        unique: true
-      }
-    },
-    firstname: {
-      type: String,
-      required: true
-    },
-    lastname: {
-      type: String,
-      required: true
-    },
-    profilePic: {
-      type: String,
-      default: 'default_50.png'
-    },
-    profilePicId: {
-      type: String,
-      default: 'default.png'
-    },
-    about: {
-      type: String,
-      default: ''
-    },
-    dateOfBirth: Date,
-    created: {
-      type: Date,
-      default: Date.now
+  uid: {
+    type: String,
+    required: true,
+    default: shortid.generate,
+    index: {
+      unique: true
     }
+  },
+  confirmed: {
+    type: Boolean,
+    default: false
+  },
+  confirmationDate: {
+    type: Date,
+    default: null
+  },
+  confirmationString: {
+    type: String,
+    required: true
+  },
+  slug: {
+    type: String,
+    index: {
+      unique: true,
+      sparse: true
+    }
+  },
+  role: {
+    type: String,
+    required: true,
+    default: 'user'
+  },
+  username:  {
+    type: String,
+    required: true,
+    index: {
+      unique: true
+    }
+  },
+  firstname: {
+    type: String,
+    required: true
+  },
+  lastname: {
+    type: String,
+    required: true
+  },
+  profilePic: {
+    type: String,
+    default: 'default_50.png'
+  },
+  profilePicId: {
+    type: String,
+    default: 'default.png'
+  },
+  gender: {
+    type: String,
+    default: ''
+  },
+  about: {
+    type: String,
+    default: ''
+  },
+  dateOfBirth: Date,
+  created: {
+    type: Date,
+    default: Date.now
+  }
 }, {
   collection: 'users'
 });

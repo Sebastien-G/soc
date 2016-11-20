@@ -1,5 +1,21 @@
 angular.module('app.directives', [])
 
+.directive('keyBind', function() {
+  return function(scope, element, attrs) {
+    element.bind('keydown keypress', function(event) {
+      if(event.which === Number(attrs.key)) {
+        scope.$apply(function(){
+          scope.$eval(attrs.keyBind, {
+            'event': event
+          });
+        });
+
+        event.preventDefault();
+      }
+    });
+  };
+})
+
 .directive('friendBadge', ['$log', function($log) {
   return {
     restrict: 'E',

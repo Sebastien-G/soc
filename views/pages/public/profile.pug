@@ -1,4 +1,4 @@
-extends default_layout
+extends ../../layouts/default
 
 block angularModules
   script(src="/javascripts/ng-file-upload-all.min.js")
@@ -10,7 +10,7 @@ block content
   h1= title
 
   if req && req.user
-    include ./includes/profile_form.pug
+    include ../../includes/public/profile_form.pug
 
   else
     p You will be escorted out

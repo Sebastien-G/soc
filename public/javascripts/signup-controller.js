@@ -9,7 +9,6 @@
     $log.debug('signup contrtoller instanciated');
 
     this.formData = {
-      'firstname': '',
       'lastname': '',
       'username': '',
       'usernameTaken': '----',

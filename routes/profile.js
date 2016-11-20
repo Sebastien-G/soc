@@ -64,7 +64,7 @@ router.get('/', function(req, res, next) {
 
 
 
-    res.render('profile', {
+    res.render('pages/public/profile', {
       title: 'Mon profile',
       req: req
     });
@@ -74,7 +74,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   var username = req.params.username;
-  res.render('userEdit', {
+  res.render('pages/public/userEdit', {
     title: 'Modifier mon profile',
     req: req
   });

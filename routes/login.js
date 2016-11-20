@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
   if (loginErrorMsg != '') {
     obj.loginErrorMsg = loginErrorMsg
   }
-  res.render('login', obj);
+  res.render('pages/public/login', obj);
 });
 /*
 router.post('/', passport.authenticate('local'), function(req, res) {
@@ -49,10 +49,9 @@ router.post('/', function(req, res, next) {
             return next(err);
           }
 
-          var profilePicUid = utils.getProfilePic(user);
+          //var profilePicUid = utils.getProfilePic(user);
           var userConnection = {
             profilePic: user.profilePic,
-            profilePicUid: profilePicUid,
             firstname: user.firstname,
             lastname: user.lastname,
             uid: user.uid,

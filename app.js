@@ -1,12 +1,3 @@
-/*
-Elon Musk
-Bill gates
-Steve Wozniak
-Douglas Crockford
-Brendan Eich
-Jeffrey Hawkins
-*/
-
 var compression = require('compression');
 var express = require('express');
 var session = require('express-session');
@@ -73,6 +64,7 @@ app.use(function (req, res, next) {
     app.locals.loggedInUsers = {};
   }
 
+  app.locals.moment = require('moment');
   // console.log(chalk.blue('app.locals.loggedInUsers'));
   // console.log(app.locals.loggedInUsers);
 
@@ -106,8 +98,6 @@ app.use('/confirm-account', require('./routes/confirmAccount'));
 app.use('/friends', require('./routes/friends'));
 app.use('/invitations', require('./routes/invitations'));
 
-app.use('/chat', require('./routes/chat'));
-
 app.use('/post', require('./routes/post'));
 
 app.use('/q', require('./routes/q'));
@@ -129,7 +119,7 @@ if (app.get('env') === 'development') {
   app.locals.pretty = true; // output indented HTML
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.render('pages/public/error', {
       message: err.message,
       error: err,
       req: req
@@ -141,7 +131,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+  res.render('pages/public/error', {
     message: err.message,
     error: {},
     req: req

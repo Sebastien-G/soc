@@ -1,5 +1,5 @@
 <div class="chat-window">
-  <h3> Discussion instantanée</h3>
+  <h3>Discussion instantanée</h3>
 
   <button ng-click="chatModalCtrl.cancel()" class="close-button" aria-label="Close reveal" type="button">
     <span aria-hidden="true"> &times;</span>
@@ -17,7 +17,7 @@
   </div>
 
   <div class="chat-message">
-    <textarea id="chat-message" autofocus ng-model="chatModalCtrl.message" placeholder="chatModalCtrl.placeholder"></textarea>
+    <textarea id="chat-message" autofocus ng-model="chatModalCtrl.message" placeholder="{{chatModalCtrl.placeholder}}" key-bind="chatModalCtrl.send()" key="13"></textarea>
   </div>
 
   <button ng-click="chatModalCtrl.send()" class="button" type="button">

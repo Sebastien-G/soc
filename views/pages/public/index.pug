@@ -1,4 +1,4 @@
-extends default_layout
+extends ../../layouts/default
 
 block angularControllers
   if req && req.user
@@ -8,26 +8,6 @@ block angularControllers
     script(src="/javascripts/signup-controller.js")
 
 block content
-
-  unless req && req.user
-    h1 Bienvenue
-
-    div.callout.success
-      p Vous ne pourrez pas faire grand chose tant que vous n’êtes pas connecté. <br>
-
-    div.row
-      div.small-12.medium-6.columns
-        h3 Pas encore inscrit&nbsp;?
-        p
-          a.button.success.expanded(href="/signup") Créez votre compte
-        p
-          em la création de compte est gratuite pour les membres du jury
-
-      div.small-12.medium-6.columns
-        h3 Vous avez un compte&nbsp;?
-        p
-          a.button.expanded(href="/login") Connectez-vous
-
 
   if signupConfirmEmail
     div.callout.success(data-closable="slide-out-right")
@@ -50,10 +30,29 @@ block content
         em (vous avez été connecté(e) automatiquement)
 
 
+  unless req && req.user
+    h1 Bienvenue
+
+    div.row
+      div.small-12.medium-6.columns
+        h3 Pas encore inscrit&nbsp;?
+        p
+          a.button.success.expanded(href="/signup") Créez votre compte
+        p
+          em la création de compte est gratuite pour les membres du jury
+
+      div.small-12.medium-6.columns
+        h3 Vous avez un compte&nbsp;?
+        p
+          a.button.expanded(href="/login") Connectez-vous
+
+
+
+
 
   if req && req.user
 
-    include ./includes/post_form.pug
+    include ../../includes/public/post_form.pug
 
   else
-    // include ./includes/signup_form.pug
+    // include ../../includes/public/signup_form.pug

@@ -1,5 +1,7 @@
 exports = module.exports = function(io) {
 
+  var debug = false;
+
   var app = require('../app');
 
   var socketNamespace = '/monitor';
@@ -53,11 +55,26 @@ exports = module.exports = function(io) {
     return false;
   }
 
-  var findUidinConnections = function (uid) {
+  var getUidFromSocketId = function (socketId) {
+  debug && console.log('funciton getUidFromSocketId(' + socketId + ')');
     var socketId;
     for (socketId in connections) {
       if (connections.hasOwnProperty(socketId)) {
-        if (connections[socketId].user.uid) {
+        if (connections[socketId].user && connections[socketId].user.uid) {
+          return connections[socketId].user.uid;
+        }
+      }
+    }
+
+    return false;
+  }
+
+
+  var getSocketIdFromUid = function (uid) {
+    var socketId;
+    for (socketId in connections) {
+      if (connections.hasOwnProperty(socketId)) {
+        if (connections[socketId].user && connections[socketId].user.uid) {
           if(connections[socketId].user.uid === uid) {
             return socketId;
           }
@@ -71,7 +88,7 @@ exports = module.exports = function(io) {
 
   var getRedactedUser = function (socketId) {
 
-    if (connections[socketId].user.uid) {
+    if (connections[socketId] && connections[socketId].user && connections[socketId].user.uid) {
       return {
         uid: connections[socketId].user.uid,
         firstname: connections[socketId].user.firstname,
@@ -83,104 +100,110 @@ exports = module.exports = function(io) {
     return false;
   }
 
-  // var getSocketsinRoom = function (roomId) {
-  //   /*
-  //   http://stackoverflow.com/a/24145381/1347953
-  //   */
-  //   var res = [];
-  //   var room = io.sockets.adapter.rooms[roomId];
-  //   console.log('getSocketsinRoom room: ' + room);
-  //   if (room) {
-  //     for (var id in room) {
-  //       res.push(io.sockets.adapter.nsp.connected[id]);
-  //     }
-  //   }
-  //   return res;
-  // };
 
   monitorIoNs.on('connection', function(socket) {
+    debug && console.log('ON:connection');
+    debug && console.log('socket.id: ' + socket.id);
 
-    console.log(socket.id);
+    var userConnection = {};
+    if (socket.request && socket.request.user && socket.request.user.logged_in) {
+      debug && console.log('~~User is authenticated');
+      debug && console.log(socket.request.user);
 
-    var user;
-    if (socket.request && socket.request.user) {
-      user = socket.request.user;
+      if (app && app.locals && app.locals.loggedInUsers) {
+        // console.log('BEFORE:');
+        // console.log(app.locals.loggedInUsers);
+        var userConnection = {
+          profilePic: socket.request.user.profilePic,
+          firstname: socket.request.user.firstname,
+          lastname: socket.request.user.lastname,
+          uid: socket.request.user.uid,
+          user_id: socket.request.user._id,
+          loginDate: Date.now(),
+        }
+
+        //app.locals.loggedInUsers[userConnection.uid] = userConnection;
+        // console.log('AFTER:');
+        // console.log(app.locals.loggedInUsers);
+
+      }
     } else {
-      user = {};
+      debug && console.log('~~User is NOT authenticated');
     }
 
     connections[socket.id] = {
-      user: user,
+      user: userConnection,
       socket: socket,
       socketId: socket.id,
       dateJoined: Date.now()
     }
 
-    console.log('getSocketCount: ' + getSocketCount());
-    //console.log(getAllSockets());
-    //console.log(getSockets());
-
-    // console.log('NEW Connection ♥ ♥ ♥');
-    // console.log(connections);
-    // console.log('<<<<');
-
-
     socket.on('disconnect', function() {
+      debug && console.log('ON:disconnect connections:');
+      debug && console.log(connections);
       if (connections.hasOwnProperty(socket.id)) {
+/*
+        var uid = getUidFromSocketId(socket.id);
+        console.log('uid: ' + uid);
+        if (uid) {
+          console.log('uid exists, typeof: ' + typeof uid);
+          if (app && app.locals && app.locals.loggedInUsers) {
+            console.log('About to delete (here is app.locals.loggedInUsers):');
+            console.log(app.locals.loggedInUsers);
+            console.log('app.locals.loggedInUsers[uid] BEFORE delete:');
+            console.log(app.locals.loggedInUsers[uid]);
+            delete app.locals.loggedInUsers[uid];
+            console.log('app.locals.loggedInUsers[uid] AFTER delete:');
+            console.log(app.locals.loggedInUsers[uid]);
+          }
+        }
+*/
         delete connections[socket.id];
-        console.log('User "' + socket.request.user.firstname + '" has been disconnected');
-        // socket.broadcast.emit('killClient', clientId);
+        debug && console.log('User "' + socket.request.user.firstname + '" has been disconnected');
       }
     }); // socket.on('disconnect'
 
 
     socket.on('startChat', function(data) {
-      console.log('ON:startChat');
-      console.log('getSocketCount: ' + getSocketCount());
-      console.log('connections count: ' + Object.keys(connections).length);
-      console.log(data);
+      // debug && console.log('ON:startChat');
+      // debug && console.log('getSocketCount: ' + getSocketCount());
+      // debug && console.log('connections count: ' + Object.keys(connections).length);
+      // debug && console.log(data);
       if (socketIsAuthenticatedUser(socket)) {
-        console.log('From authenticated user');
-        var toSocketId = findUidinConnections(data.toUid);
+        var toSocketId = getSocketIdFromUid(data.toUid);
         if (toSocketId) {
-          console.log('Sending chatRequest to ' + connections[toSocketId].user.uid);
           var requesterUser = getRedactedUser(socket.id);
           connections[toSocketId].socket.emit('chatRequest', {
             fromUid: connections[toSocketId].user.uid,
             toUid: requesterUser.uid
           });
         } else {
-          console.log('toUser NOT found');
+          debug && console.log('toUser NOT found');
         }
-
-/*        var roomId = 'chatRoom' + roomCount;
-        roomCount++;
-        console.log(roomCount);
-        //
-        socket.join(roomId);
-  */
       } else {
-        console.log('NOT From authenticated user');
+        debug && console.log('NOT From authenticated user');
       }
-
-      //console.log(getSocketsinRoom(roomId));
     }); // s
 
 
     socket.on('getChatUser', function(data) {
+      debug && console.log('ON:getChatUser');
+      debug && console.log(data);
       var user = getRedactedUser(socket.id);
+      var toUserSocketId = getSocketIdFromUid(data.toUid);
+      debug && console.log('toUserSocketId: ' + toUserSocketId);
+      var toUser = getRedactedUser(toUserSocketId);
+      debug && console.log('toUser: ', toUser);
       if (user) {
         socket.emit('chatUser', {
-          user: user
+          user: user,
+          toUser: toUser
         });
       }
     });
 
     socket.on('chatMessage', function(data) {
-      console.log('On:chatMessage');
-      console.log(data);
-
-      var toSocketId = findUidinConnections(data.toUid);
+      var toSocketId = getSocketIdFromUid(data.toUid);
       if (toSocketId) {
         var fromUser = getRedactedUser(socket.id);
 
@@ -188,26 +211,10 @@ exports = module.exports = function(io) {
           fromUser: fromUser,
           message: data.message
         });
-/*
-        socket.broadcast.to('game').emit('chatMessage', {
-          fromUser: fromUser,
-          message: data.message
-        });
-*/
-      }
-    }); // s
-
-
-/*    console.log('socketIds (' + socketIds.length + ')');
-    console.log(socketIds);
-    socketIds.forEach(function(socketId) {
-      var socket = io.of(socketNamespace).sockets[socketId];
-      if (socket.connected) {
-        console.log('connected socket:');
-        //console.log(socket);
       }
     });
-*/
+
+
 
 
     monitorIoNs.emit('greetings', {
@@ -215,6 +222,10 @@ exports = module.exports = function(io) {
     });
 
     socket.on('getActivityStatus', function(data) {
+      // debug && console.log('On:getActivityStatus');
+      // debug && console.log('getSocketCount: ' + getSocketCount());
+      // debug && console.log('nb connections: ' + Object.keys(connections).length);
+
 
       var socketIds = Object.keys(io.of(socketNamespace).sockets);
       var nbOnlineUsers = socketIds.length;
@@ -224,6 +235,8 @@ exports = module.exports = function(io) {
 
       var nbLoggedIn = 0;
       if (app && app.locals && app.locals.loggedInUsers) {
+        // console.log('app.locals.loggedInUsers');
+        // console.log(app.locals.loggedInUsers);
         nbLoggedIn = Object.keys(app.locals.loggedInUsers).length || 0;
       }
 
@@ -236,7 +249,6 @@ exports = module.exports = function(io) {
             var userFriends = [];
             friends.forEach (function (user) {
               var userFriend = utils.getLeanFriend(user);
-              user.profilePic = 'ABC';
               var ss = utils.getProfilePic(userFriend);
               userFriends.push(userFriend);
             });

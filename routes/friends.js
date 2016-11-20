@@ -23,7 +23,7 @@ router.get('/', function(req, res, next) {
         });
       }
 
-      res.render('friends', {
+      res.render('pages/public/friends', {
         title: 'Mes amis',
         req: req,
         friends: userFriends

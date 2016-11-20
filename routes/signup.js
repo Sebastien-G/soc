@@ -82,7 +82,7 @@ router.get('/', function(req, res, next) {
   }
 
 
-  res.render('signup', {
+  res.render('pages/public/signup', {
     title: 'Inscription',
     req: req,
     /*days: days,
@@ -160,13 +160,6 @@ router.post('/', function(req, res) {
 
 
   if (formErrors) {
-    // res.render('signup', {
-    //   title: 'Inscription',
-    //   req: req,
-    //   formData: userInput,
-    //   formMessages: formMessages
-    // });
-
     res.json({
       status: 'error',
       formData: userInput
@@ -190,13 +183,6 @@ router.post('/', function(req, res) {
     userInput.password,
     function(err, user) {
       if (err) {
-        /*return res.render('signup', {
-          title: 'Inscription',
-          formData: userInput,
-          xformData: userInput,
-          formMessages: formMessages
-        });*/
-
         return res.json({
           status: 'error',
           formData: userInput,

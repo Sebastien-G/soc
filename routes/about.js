@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
     req: req
   };
 
-  res.render('about', obj);
+  res.render('pages/public/about', obj);
 });
 
 module.exports = router;

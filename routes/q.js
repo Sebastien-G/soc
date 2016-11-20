@@ -28,6 +28,7 @@ router.get('/', function(req, res, next) {
             }
           ]
         }).select({
+          "profilePic": true,
           "firstname": true,
           "lastname": true,
           "uid": true,

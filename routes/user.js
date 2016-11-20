@@ -7,7 +7,7 @@ router.get('/:uid', function(req, res, next) {
   if (!req.user) {
     res.redirect('/login');
   } else {
-    // rJBlF87Wx
+
     var uid = req.params.uid;
 
     var User = require('../models/user');
@@ -21,14 +21,6 @@ router.get('/:uid', function(req, res, next) {
         if (user === null) {
           return next(err);
         } else {
-          /*
-          Jeff.getFriendsOfFriends(function (err, friendsOfJeffsFriends) {
-            if (err) throw (err)
-
-            console.log('friendsOfJeffsFriends', friendsOfJeffsFriends);
-            // friendsOfJeffsFriends [ { username: 'Sam', _id: 54c6eb7cf2f9fe9672b90ba4, __v: 0 } ]
-          });
-          */
           user.userUrl = '/user/' + user.uid;
           utils.getFriendshipStatus(req.user, user.uid).then(function(friendshipStatus) {
             switch (friendshipStatus) {
@@ -46,11 +38,11 @@ router.get('/:uid', function(req, res, next) {
                 user.addButtonAction = 'remove';
                 break;
             }
-            res.render('user', {
+            res.render('pages/public/user', {
               title: 'Profile de ' + user.firstname + ' ' + user.lastname,
               req: req,
               user: user,
-              activeTab: 'friends'
+              activeTab: 'journal'
             });
           }); // getFriendshipStatus
         }
@@ -78,14 +70,6 @@ router.get('/:uid/about', function(req, res, next) {
         if (user === null) {
           return next(err);
         } else {
-          /*
-          Jeff.getFriendsOfFriends(function (err, friendsOfJeffsFriends) {
-            if (err) throw (err)
-
-            console.log('friendsOfJeffsFriends', friendsOfJeffsFriends);
-            // friendsOfJeffsFriends [ { username: 'Sam', _id: 54c6eb7cf2f9fe9672b90ba4, __v: 0 } ]
-          });
-          */
           user.userUrl = '/user/' + user.uid;
           utils.getFriendshipStatus(req.user, user.uid).then(function(friendshipStatus) {
             switch (friendshipStatus) {
@@ -103,11 +87,11 @@ router.get('/:uid/about', function(req, res, next) {
                 user.addButtonAction = 'remove';
                 break;
             }
-            res.render('userAbout', {
+            res.render('pages/public/userAbout', {
               title: 'Profile de ' + user.firstname + ' ' + user.lastname,
               req: req,
               user: user,
-              activeTab: 'friends'
+              activeTab: 'about'
             });
           }); // getFriendshipStatus
         }
@@ -135,14 +119,7 @@ router.get('/:uid/friends', function(req, res, next) {
         if (user === null) {
           return next(err);
         } else {
-          /*
-          Jeff.getFriendsOfFriends(function (err, friendsOfJeffsFriends) {
-            if (err) throw (err)
 
-            console.log('friendsOfJeffsFriends', friendsOfJeffsFriends);
-            // friendsOfJeffsFriends [ { username: 'Sam', _id: 54c6eb7cf2f9fe9672b90ba4, __v: 0 } ]
-          });
-          */
           user.userUrl = '/user/' + user.uid;
 
           utils.getFriendshipStatus(req.user, user.uid).then(function(friendshipStatus) {
@@ -161,29 +138,30 @@ router.get('/:uid/friends', function(req, res, next) {
                 user.addButtonAction = 'remove';
                 break;
             }
-            res.render('userFriends', {
-              title: 'Profile de ' + user.firstname + ' ' + user.lastname,
-              req: req,
-              user: user,
-              activeTab: 'friends'
-            });
-          }); // getFriendshipStatus
 
+            var userFriends = [];
+
+            utils.getFriends(user).then(function(friends) {
+              if (friends) {
+                friends.forEach (function (user) {
+                  utils.getProfilePic(user);
+                  userFriends.push(user);
+                });
+              }
+
+              res.render('pages/public/userFriends', {
+                title: 'Profile de ' + user.firstname + ' ' + user.lastname,
+                req: req,
+                user: user,
+                activeTab: 'friends',
+                friends: userFriends
+              });
+            }); // utils.getFriends
+          }); // getFriendshipStatus
         }
       }
     }); // User.findOne
   }
 });
-
-
-/*
-router.get('/edit', function(req, res, next) {
-  var username = req.params.username;
-  res.render('userEdit', {
-    title: 'Modifier mon profile',
-    req: req
-  });
-});
-*/
 
 module.exports = router;

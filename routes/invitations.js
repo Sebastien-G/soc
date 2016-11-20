@@ -47,7 +47,7 @@ router.get('/', function(req, res, next) {
           });
         }
 
-        res.render('invitations', {
+        res.render('pages/public/invitations', {
           title: 'Invitations',
           req: req,
           invitations: userInvitations,
@@ -57,19 +57,6 @@ router.get('/', function(req, res, next) {
       });
 
     });
-
-/*
-.catch(function (err) {
-  res.render('invitations', {
-    title: 'Invitations',
-    req: req,
-    invitations: invitations,
-    sentRequests: sentRequests
-  });
-
-} )
-*/
-
   }
 });
 

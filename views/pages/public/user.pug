@@ -1,4 +1,4 @@
-extends default_layout
+extends ../../layouts/default
 
 block angularControllers
   if req && req.user
@@ -7,9 +7,11 @@ block angularControllers
 
 block content
 
-  include ./includes/userHeader.pug
+  include ../../includes/public/userHeader.pug
 
   if req && req.user
+
+    include ../../includes/public/post_form.pug
 
   else
     p You will be escorted out

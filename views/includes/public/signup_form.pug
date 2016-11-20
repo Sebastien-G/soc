@@ -19,7 +19,7 @@ div(ng-controller="signupController as signupCtrl")
     div.row
       div.small-6.columns(class=(formMessages && formMessages.firstname) ? 'field-error' : '')
         label(for="firstname") Prénom
-        input(type="text", id="firstname", name="firstname", required="required", value=formData.firstname, ng-model="signupCtrl.formData.firstname")
+        input(type="text", id="firstname", name="firstname", required="required", value=formData.firstname, ng-model="signupCtrl.formData.firstname", autofocus)
         div(ng-messages="signupCtrl.signupForm.firstname.$error", ng-if="signupCtrl.signupForm.firstname.$dirty", role="alert")
           p.callout.alert(ng-message="required") Veuillez saisir votre prénom.
 
@@ -74,4 +74,4 @@ div(ng-controller="signupController as signupCtrl")
 
     div.row
       div.small-12.columns
-        input.button.expanded.success(type="submit", value="Inscription" ng-disabled="signupCtrl.signupForm.$invalid")
+        input.button.expanded.success(type="submit", value="Inscription", ng-disabled="signupCtrl.signupForm.$invalid")

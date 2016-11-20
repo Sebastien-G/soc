@@ -68,10 +68,11 @@ angular.module('app.services', [])
 
         var chat = this;
 
-        this.placeholder = 'Envoyez un message à ';
+        this.placeholder = '';
         this.message = '';
         this.messages = [];
         this.user;
+        this.toUser;
         this.ready = false;
 
         this.cancel = function() {
@@ -82,13 +83,16 @@ angular.module('app.services', [])
           debug && $log.debug('init modal');
 
           socketIoService.emit('getChatUser', {
-            user: fromUid
+            fromUid: fromUid,
+            toUid: toUid
           });
         };
 
         socketIoService.on('chatUser', function (data) {
           chat.user = data.user;
+          chat.toUser = data.toUser;
           chat.ready = true;
+          chat.placeholder = 'Envoyez un message à ' + data.toUser.firstname + ' ' + data.toUser.lastname;
         });
 
         this.send = function() {

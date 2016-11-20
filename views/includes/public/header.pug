@@ -1,0 +1,129 @@
+//- div.title-bar(data-responsive-toggle="main-menu", data-hide-for="medium")
+//-   button.menu-icon(type="button", data-toggle)
+//-   div.title-bar-title Menu
+
+header.top-bar(ng-controller="topBarController as topBarCtrl", id="main-menu")
+  div.wrapper
+    div.top-bar-left
+
+      ul.dropdown.menu(data-dropdown-menu, data-disable-hover="true")
+        li.menu-text
+          a(href="/")
+            img(src="/images/logo.png", width="60", height="60")
+
+        //- li
+        //-   div.button-group
+        //-     a.button Primary Action
+        //-     dropdown-toggle(close-on-click="true", pane-align="center")
+        //-       toggle
+        //-         a.dropdown.button.arrow-only
+        //-           span.show-for-sr Show menu
+        //-       pane
+        //-         ul.menu.vertical
+        //-           li(ng-repeat="choice in items")
+        //-             a aaaa
+
+        if req && req.user
+
+          li(ng-controller="searchController as searchCtrl")
+            div.input-group.search-box
+              angucomplete-alt.input-group-field(
+                id="q",
+                placeholder="Rechercher des amis",
+                pause="100",
+                selected-object="searchCtrl.selectedObjectCallback",
+                remote-url="/q?q=",
+                remote-url-data-field="results",
+                title-field="firstname,lastname",
+                match-class="highlight",
+                image-field="profilePic",
+                template-url="/templates/angucomplete.html"
+                input-class="input-group-field",
+                minlength="1",
+                clear-selected="true",
+                u="Recherche en cours...",
+                v="Aucun résultat",
+                text-searching="Recherche en cours..."
+                text-no-results="Aucun résultat"
+              )
+
+              button.input-group-button.button(type="submit")
+                i.fa.fa-search
+
+
+          if req.user.role === 'admin'
+
+            li
+              a
+                i.icon.fa.fa-cubes
+                = " Administration"
+
+              ul.menu.vertical
+                li
+                  a(href="/admin")
+                    i.fa.fa-bar-chart
+                    = " Tableau de bord"
+
+                li
+                  a(href="/admin/users")
+                    i.fi-torsos-male-female
+                    = " Membres"
+
+
+    div.top-bar-right
+
+      ul.dropdown.menu(data-dropdown-menu, data-disable-hover="true", closing-time="1000")
+
+        unless req && req.user
+          li.signup-button
+            a.button.success(href="/signup") Créer un compte
+          li
+            a.button(href="/login") Connexion
+
+
+        if req && req.user
+
+          li.user-profile
+            a(href="/user/" + req.user.uid, tooltip="{{topBarCtrl.tooltips.profile}}", tooltip-placement="bottom", tooltip-popup-delay="300")
+              div.profile-pic(style="background-image: url('/images/profile/" + req.user.profilePic + "')")
+              = req.user.firstname + ' ' + req.user.lastname
+
+          li
+            a(tooltip="{{topBarCtrl.tooltips.notifications}}", tooltip-placement="bottom", tooltip-popup-delay="300")
+              i.icon.fa.fa-bell
+
+            ul.menu.vertical
+              li(ng-repeat="notification in topBarCtrl.notifications track by $index")
+                a {{notification}}
+
+          li
+            a(href="/invitations", tooltip="{{topBarCtrl.tooltips.invitations}}", tooltip-placement="bottom", tooltip-popup-delay="300")
+              i.icon.fi-torsos-male-female
+
+          li
+            a(href="/messages", tooltip="{{topBarCtrl.tooltips.messages}}", tooltip-placement="bottom", tooltip-popup-delay="300")
+              i.icon.fa.fa-inbox
+
+          li
+            a
+              i.icon.fi-widget
+
+            ul.menu.vertical
+              li
+                a(href="/profile") Mon compte
+
+              if req.user.role === 'admin'
+                li
+                  a(href="/admin") Administration
+              li
+                a(href="/logout") Déconnexion
+
+
+
+    //- div.top-bar-right
+    //-   if req && req.user
+    //-     ul.menu
+    //-       li
+    //-         input(type="search", placeholder="Search")
+    //-       li
+    //-         button(type="button", class="button") Search

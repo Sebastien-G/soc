@@ -1,0 +1,56 @@
+div.row.expanded
+  div.small-12.columns
+
+    div.table-scroll
+      table.collection-table.hover
+        thead
+          tr
+            th Pic
+            th Nom
+            th Prénom
+            th Sexe
+            th E-mail
+            th Role
+            th Date de naissance
+            th Date d’inscription
+            th Statut
+            th UID
+            th(colspan="2") Actions
+        tbody
+          each user in users
+            tr
+              td
+                a(href="/user/" + user.uid, target="_blank")
+                  img(src="/images/profile/" + user.profilePic, alt="", title="Aller sur le profile")
+              td= user.firstname
+              td= user.lastname
+              td(title=user.gender)
+                if (user.gender === 'male')
+                  i.icon.fi-torso
+                else
+                  i.icon.fi-torso-female
+              td
+                a(href="mailto:" + user.username)
+                  = user.username
+              td(title=user.role)
+                if (user.role === 'admin')
+                  i.icon.fa.fa-unlock
+                else
+                  i.icon.fa.fa-lock
+              td(title=moment(user.dateOfBirth).format('DD/MM/YYYY'))= moment(user.dateOfBirth).format('DD/MM/YYYY')
+              td(title=moment(user.created).format('DD/MM/YYYY HH:MM:ss'))= moment(user.created).format('DD/MM/YYYY')
+              if user.confirmed
+                td(title="Confirmé le : " + moment(user.confirmationDate).format('DD/MM/YYYY à HH:MM:ss'))
+                  i.icon.fa.fa-check
+              else
+                td(title="Compte non confirmé")
+                  i.icon.fa.fa-ban
+              td= user.uid
+              td(title="Modifier ce compte")
+                a(href="/admin/user/edit/" + user._id)
+                  i.icon.fa.fa-pencil
+              td(title="Supprimer ce compte")
+                //- a(href="/admin/user/remove/" + user._id)
+                //-   i.icon.fa.fa-remove
+
+                confirm-user-delete(data-user-id=user._id)

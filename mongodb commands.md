@@ -19,6 +19,22 @@
     )
 
 
+
+## Update user role to admin
+
+    db.users.update(
+      {
+        '_id': {
+          $eq: ObjectId("581fc388c0d82830a0ee0993")
+        }
+      },
+      {
+        $set: {
+          role: "admin"
+        }
+      }
+    )
+
 ## Add profilePic to `users` collection
 
     db.users.update(
@@ -35,6 +51,58 @@
       {
         multi: true
       }
+    )
+
+
+## Add gender to `users` collection
+
+    db.users.update(
+      {
+        gender: {
+          $exists: false
+        }
+      },
+      {
+        $set: {
+          gender: "male"
+        }
+      },
+      {
+        multi: true
+      }
+    )
+
+
+## Add dateOfBirth to `users` collection
+
+    db.users.update(
+      {
+        dateOfBirth: {
+          $exists: false
+        }
+      },
+      {
+        $set: {
+          dateOfBirth: new Date()
+        }
+      },
+      {
+        multi: true
+      }
+    )
+
+## Remove field dteOfBirth from `users` collection
+
+    db.users.update(
+       {},
+       {
+         $unset: {
+           dteOfBirth: "",
+         }
+       },
+       {
+         multi: true
+       }
     )
 
 

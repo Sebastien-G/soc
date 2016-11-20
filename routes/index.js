@@ -27,7 +27,7 @@ router.get('/', function(req, res, next) {
     }
   }
 
-  res.render('index', obj);
+  res.render('pages/public/index', obj);
 });
 
 module.exports = router;

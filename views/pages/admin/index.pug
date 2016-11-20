@@ -1,0 +1,29 @@
+extends ../../layouts/admin
+
+block angularControllers
+  script(src="/javascripts/admin/user-delete-directive.js")
+
+block content
+
+  h1= title
+
+  div.row.expanded
+
+    div.small-4.columns
+      h2 Membres
+      p= userStats.total
+      p= userStats.confirmed
+      p= userStats.awaitingConfirmation
+
+    div.small-4.columns
+      h2 Messages
+
+    div.small-4.columns
+      h3 ...
+
+  h2 Membres
+  include ../../includes/admin/userTable.pug
+
+  div.row.expanded
+    section.small-12.columns
+      include ../../includes/public/column.pug

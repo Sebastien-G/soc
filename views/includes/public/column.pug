@@ -1,4 +1,6 @@
 
+h3 Activité du réseau
+
 div(ng-controller="activityController as activityCtrl")
   p(ng-bind="activityCtrl.nbOnlineUserMessages")
 
@@ -28,7 +30,7 @@ div(ng-controller="activityController as activityCtrl")
         em Aucun ami connecté en ce moment
 
     p.text-right
-      a(href="/friends")
+      a(href="/user/" + req.user.uid + '/friends')
         i.fi-torsos-all
         = " Tous mes amis"
 

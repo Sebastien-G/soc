@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
       req: req
     };
 
-    res.render('messages', obj);
+    res.render('pages/public/messages', obj);
 
   } // auth
 });

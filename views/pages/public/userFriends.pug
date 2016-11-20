@@ -1,0 +1,21 @@
+extends ../../layouts/default
+
+block angularControllers
+  if req && req.user
+    script(src="/javascripts/post-controller.js")
+
+
+block content
+
+  include ../../includes/public/userHeader.pug
+
+  if req && req.user
+
+    if friends.length > 0
+      ul.friends-list
+        each user in friends
+          li
+            friend-badge(data-uid=user.uid, data-firstname=user.firstname, data-lastname=user.lastname, data-profile-pic=user.profilePic)
+
+  else
+    p You will be escorted out

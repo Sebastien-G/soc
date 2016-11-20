@@ -2,6 +2,8 @@
 $primary-color: #0ba8c7; // rgb(11, 168, 199)
 $vibrant-color: #f26522; // rgb(242, 101, 34)
 $success-color: #a8c70b;
+$header-color: $vibrant-color;
+
 a {
   color: $primary-color;
 }
@@ -10,19 +12,40 @@ body {
   background-color: #fff;
 }
 
+@media screen and (min-width: 40em) {
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.6rem;
+  }
+  h3 {
+    font-size: 1.2rem;
+  }
+  h4 {
+    font-size: 1rem;
+  }
+  h5 {
+    font-size: 1rem;
+  }
+  h6 {
+    font-size: 1rem;
+  }
+}
+
 .wrapper {
   margin: 0 auto;
-  max-width: 1100px;
+  max-width: 1200px;
   width: 90%;
 }
 
 header.top-bar {
   margin-bottom: 30px;
-  border-bottom: 5px solid darken($vibrant-color, 10%);
+  border-bottom: 5px solid darken($header-color, 10%);
 }
 header.top-bar,
 header.top-bar ul {
-  background-color: $vibrant-color;
+  background-color: $header-color;
 }
 
 header.top-bar a,
@@ -41,11 +64,30 @@ header.top-bar a:focus {
   border-color: #fff transparent transparent;
 }
 
+.is-dropdown-submenu.submenu {
+  border: none;
+  border-bottom: 5px solid darken($header-color, 10%);
+  box-shadow: 3px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.is-dropdown-submenu.submenu li:hover {
+  background-color: darken($header-color, 10%);
+}
+.is-dropdown-submenu.submenu li a {
+  color: rgba(255, 255, 255, 0.8);
+}
+.is-dropdown-submenu.submenu li:hover a {
+  color: #fff;
+}
+
 header.top-bar .icon {
   font-size: 2rem;
 
-  color: rgba($vibrant-color, 0.8);
+  color: rgba($header-color, 0.8);
   text-shadow: 0px 1px 2px rgba(255, 255, 255, 0.33), 0 0 0 #000, 0px 1px 2px rgba(222, 222, 222, 0.5);
+}
+
+header.top-bar .icon.fa {
+  font-size: 1.5rem;
 }
 
 header.top-bar a {
@@ -56,12 +98,14 @@ header.top-bar a {
 .menu > li.menu-text > a {
   margin-right: 30px;
   transform: rotate(-22.5deg);
-  -webkit-transition: all 0.66s ease;
-  transition: all 0.66s ease;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .menu > li.menu-text > a:hover {
   transform: rotate(0deg);
+  -webkit-transition: all 0.66s ease;
+  transition: all 0.66s ease;
 }
 
 .menu > li.menu-text,
@@ -101,11 +145,17 @@ input#q_value:focus {
   transition: all 0.66s ease;
 }
 
+header.top-bar button.input-group-button.button {
+  width: 50px;
+  border: none;
+}
+
 #main {
   min-height: 400px;
 }
 
 aside.main-aside {
+  padding-top: 1rem;
   background-color: #efefef;
 }
 
@@ -148,20 +198,6 @@ footer .grad {
 .input-group.search-box {
   margin-bottom: 0;
   overflow: hidden;
-}
-
-
-.menu > li > a div.profile-pic {
-  /*display: inline-block;
-  width: 40px;
-  height: 40px;
-  margin-right: 0.5rem;
-  border-radius: 50%;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
-  vertical-align: middle;*/
 }
 
 
@@ -323,6 +359,7 @@ $motion-ui-classes: (
 
 
 .angucomplete-dropdown {
+  z-index: 999;
   position: absolute;
   background-color: #f5f5f5;
   // border: 1px solid #aaa;
@@ -332,6 +369,9 @@ $motion-ui-classes: (
   overflow-y: auto;
   max-height: 300px;
   box-shadow: 3px 2px 5px rgba(0, 0, 0, 0.3);
+}
+.angucomplete-image-holder img {
+
 }
 .highlight {
   // border-bottom: 1px dotted #666;
@@ -357,8 +397,17 @@ $motion-ui-classes: (
   padding: 15px;
   background-color: #999;
   color:#fff;
+  min-height: 160px;
+  background-image: url(/images/header-bg.jpg);
+  background-size: cover;
+  background-position: 0 -70px;
+  position: relative;
 }
 
+.user-buttons {
+  bottom: 0;
+  position: absolute;
+}
 
 
 .post-form {
@@ -380,15 +429,7 @@ textarea.post {
 .post-meta {
   margin-bottom: 5px;
 }
-/*.post-meta .profile-pic {
-  box-shadow: 2px 3px 5px rgba(92, 92, 92, 0.33);
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 0.5rem;
-  vertical-align: middle;
-}*/
+
 
 .post-date {
   color: #999;
@@ -412,6 +453,11 @@ textarea.post {
 .reveal .close-button {
   color: #fff;
 }
+
+.chat-window h3 {
+  margin-top: 0;
+  line-height: 1;
+}
 .chat-content {
   border: 1px solid #ddd;
   padding: 15px;
@@ -426,6 +472,15 @@ textarea.post {
 .chat-message textarea {
 
 }
-
-
 /* End: chat */
+
+
+
+/* Start: user profile */
+
+.button-group.profile-tabs .button.active {
+  background-color: #fff;
+  color: $primary-color;
+}
+
+/* End: user profile */

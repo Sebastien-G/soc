@@ -1,0 +1,17 @@
+extends ../../layouts/admin
+
+block angularControllers
+  script(src="/javascripts/admin/user-delete-directive.js")
+
+block content
+  h1= title
+
+  if deleteUserConfirm
+    div.callout.success(data-closable="slide-out-right")
+      button.close-button(aria-label="Close alert", type="button", close="true")
+        span(aria-hidden="true") &times;
+      h3 Confirmation
+      p
+        = deleteUserConfirm
+
+  include ../../includes/admin/userTable.pug

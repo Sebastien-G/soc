@@ -1,12 +1,18 @@
 angular.module('app.controllers', [])
 
-.controller('TopBarController', ['$scope', function ($scope) {
-  this.header = {
+.controller('topBarController', ['$log', function ($log) {
+  this.tooltips = {
     profile: 'Profile',
     messages: 'Messages',
+    notifications: 'Notifications',
     invitations: 'Invitations',
     params: 'Réglages'
   }
+
+  this.notifications = [
+    'New messages',
+    'New friend requests'
+  ];
 }]) // TopBarController
 
 
