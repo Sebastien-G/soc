@@ -2,11 +2,13 @@ var compression = require('compression');
 var express = require('express');
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
+var expressValidator = require('express-validator');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan'); // use it or lose it
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var flash = require('connect-flash');
 var chalk = require('chalk');
 
@@ -20,6 +22,8 @@ mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/socTest');
 
 var app = express();
+app.use(expressValidator());
+
 // https://expressjs.com/en/advanced/best-practice-performance.html
 app.use(compression()); // will gzip output
 app.use(flash());
@@ -95,6 +99,8 @@ app.use('/friends', require('./routes/friends'));
 app.use('/invitations', require('./routes/invitations'));
 
 app.use('/post', require('./routes/post'));
+
+app.use('/recover', require('./routes/recover'));
 
 app.use('/q', require('./routes/q'));
 

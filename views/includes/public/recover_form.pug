@@ -1,0 +1,20 @@
+
+div(ng-controller="recoverController as recoverCtrl")
+
+  div.callout.alert(ng-if="recoverCtrl.errorMessage", ng-bind="recoverCtrl.errorMessage")
+
+  form(method="post", name="recoverCtrl.recoverForm", ng-submit="recoverCtrl.recoverForm.$valid && recoverCtrl.save()", novalidate)
+
+    div.row.expanded
+      div.small-12.columns
+        label(for="username") Adresse e-mail
+        input(type="email", id="username", name="username", required="required", ng-model="recoverCtrl.formData.username", compare-to-exists="recoverCtrl.formData.usernameTaken")
+        div(ng-messages="recoverCtrl.recoverForm.username.$error", ng-if="recoverCtrl.recoverForm.username.$dirty", role="alert")
+          p.callout.alert(ng-message="required") Veuillez saisir votre adresse e-mail.
+          p.callout.alert(ng-message="email") Cette adresse e-mail est invalide.
+          p.callout.alert(ng-message="compareToExists") Cette adresse e-mail est déjà utilisée.
+
+
+    div.row.expanded
+      div.small-12.columns
+        input.button.expanded.success(type="submit", value="Demander un nouveau mot de passe", ng-disabled="recoverCtrl.recoverForm.$invalid")

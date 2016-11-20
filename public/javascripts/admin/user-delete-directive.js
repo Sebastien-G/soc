@@ -10,7 +10,7 @@
         element.on('click', function() {
           //$log.debug('%cYou clicked on something', 'color:#fff;font-size:1.5em;');
 
-          if ($window.confirm('Cette action supprimera l’utilisateur ' + scope.confirmUserDeleteCtrl.userId + ' de toutes les collections. CETTE ACTION EST IRREVERSIBLE')) {
+          if ($window.confirm('Cette action supprimera l’utilisateur de toutes les collections.\n CETTE ACTION EST IRREVERSIBLE')) {
             //$log.debug('Delete');
             scope.confirmUserDeleteCtrl.deleteUser();
           } else {

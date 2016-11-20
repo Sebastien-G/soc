@@ -1,0 +1,30 @@
+
+div(ng-controller="recoverConfirmController as recoverConfirmCtrl")
+
+  div.callout.alert(ng-if="recoverConfirmCtrl.errorMessage", ng-bind="recoverConfirmCtrl.errorMessage")
+
+  form(method="post", name="recoverConfirmCtrl.recoverConfirmForm", ng-submit="recoverConfirmCtrl.recoverConfirmForm.$valid && recoverConfirmCtrl.save()", novalidate)
+
+    div.row.expanded
+      div.small-12.columns
+        label(for="password") Mot de passe
+        input(type="password", id="password", name="password", required="required", ng-model="recoverConfirmCtrl.formData.password", ng-minlength="6",
+           ng-maxlength="128")
+        div(ng-messages="recoverConfirmCtrl.recoverConfirmForm.password.$error", ng-if="recoverConfirmCtrl.recoverConfirmForm.password.$dirty", role="alert")
+          p.callout.alert(ng-message="required") Veuillez saisir votre mot de passe.
+          p.callout.alert(ng-message="minlength") Le mot de passe doit contenir au moins 6 caractères.
+          p.callout.alert(ng-message="maxlength") Le mot de passe ne doit pas dépasser 128 caractères.
+
+    div.row.expanded
+      div.small-12.columns
+        label(for="password-repeat") Mot de passe (confirmation)
+        input(type="password", id="password-repeat", name="password-repeat", required="required", ng-model="recoverConfirmCtrl.formData['password-repeat']", compare-to="recoverConfirmCtrl.formData.password")
+        div(ng-messages="recoverConfirmCtrl.recoverConfirmForm['password-repeat'].$error", ng-if="recoverConfirmCtrl.recoverConfirmForm['password-repeat'].$dirty", role="alert")
+          p.callout.alert(ng-message="required") Veuillez confirmer votre mot de passe.
+          p.callout.alert(ng-message="compareTo") Les mots de passe ne correspondent pas
+
+
+    div.row.expanded
+      div.small-12.columns
+        input.button.expanded.success(type="submit", value="Demander un nouveau mot de passe", ng-disabled="recoverConfirmCtrl.recoverConfirmForm.$invalid")
+        input(type="hidden", ng-init="recoverConfirmCtrl.formData.id='" + id +"'", ng-model="recoverConfirmCtrl.formData.id")

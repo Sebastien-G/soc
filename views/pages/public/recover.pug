@@ -1,0 +1,11 @@
+extends ../../layouts/default
+
+block angularControllers
+  script(src="/javascripts/recover-controller.js")
+
+block content
+  h1= title
+
+  div.callout.secondary Vous recevrez une demande de confirmation par e-mail.
+
+  include ../../includes/public/recover_form.pug

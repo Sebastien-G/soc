@@ -12,6 +12,13 @@ router.get('/', function(req, res, next) {
   if (req.query.confirm) {
     var confirm = req.query.confirm;
 
+    if (confirm == 'recover') {
+      var recoverConfirmEmail = req.flash('recoverConfirmEmail');
+      if (recoverConfirmEmail != '') {
+        obj.recoverConfirmEmail = recoverConfirmEmail
+      }
+    }
+
     if (confirm == 'signup') {
       var signupConfirmEmail = req.flash('signupConfirmEmail');
       if (signupConfirmEmail != '') {

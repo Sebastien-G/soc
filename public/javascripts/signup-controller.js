@@ -2,6 +2,7 @@
   'use strict';
 
   var signupModule = angular.module('signupModule', [])
+
   .controller('signupController', ['$window', '$http', '$log', '$q', function($window, $http, $log, $q) {
     var debug = true;
     var self = this;
@@ -9,23 +10,18 @@
     $log.debug('signup contrtoller instanciated');
 
     this.formData = {
+      'firstname': '',
       'lastname': '',
       'username': '',
-      'usernameTaken': '----',
+      'usernameTaken': '',
       'username-repeat': '',
-      'password': ''
+      'password': '',
+      'birthday': '0',
+      'birthmonth': '0',
+      'birthyear': '0',
+      'gender': ''
     };
-/*
-    this.usernameMismatch = function() {
-      if ((this.formData.username != '') && (this.formData['username-repeat'] != '')) {
-        if (this.formData.username != this.formData['username-repeat']) {
-          return true;
-        }
-      }
 
-      return false;
-    };
-*/
     this.save = function() {
 
       $http({
@@ -52,6 +48,35 @@
     };
   }])
   ;
+
+
+/*
+  signupModule.directive('nonZero', function(){
+    return {
+     restrict: 'A',
+     require: 'ngModel',
+     link: function(scope, element, attributes, ngModel){
+
+        // add a parser that will process each time the value is
+        // parsed into the model when the user updates it.
+        ngModel.$parsers.unshift(function(modelValue) {
+          if(modelValue){
+            // test and set the validity after update.
+            //var valid = modelValue.charAt(0) == 'A' || modelValue.charAt(0) == 'a';
+            var valid;
+            if (modelValue === 0 || modelValue === '0' || modelValue === '') {
+              valid = false;
+            }
+            ngModel.$setValidity('nonZero', valid);
+          }
+
+          // if it's valid, return the modelValue to the model,
+          // otherwise return undefined.
+          return valid ? modelValue : undefined;
+        });
+      }
+    }
+  });*/
 
   signupModule.directive('compareToExists', function() {
     return {

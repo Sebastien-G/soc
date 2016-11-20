@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
   if (req.query.id) {
     var confirmId = req.query.id;
 
-    User.findOne({
+    /*User.findOne({
       confirmationString: confirmId
     }, function(err, results) {
       if (err) {
@@ -16,42 +16,40 @@ router.get('/', function(req, res, next) {
       }
 
       console.log(results);
-    });
+    });*/
 
-  }
-
-  User.findOneAndUpdate({
-    confirmationString: confirmId,
-    confirmed: false,
-  }, {
-    $set: {
-      confirmed: true,
-      confirmationDate: Date.now()
-    }
-  }, {
-    new: true
-  }, function(err, user) {
-    if (err) {
-      console.log('Error updating data!');
-    } else {
-      if (user) {
-        console.log('user');
-        console.log(user);
-
-        req.logIn(user, function(err) {
-          if (err) {
-            return next(err);
-          }
-
-          req.flash('accountConfirmed', user.uid);
-          res.redirect('/?confirm=account');
-        });
-      } else {
-        res.redirect('/');
+    User.findOneAndUpdate({
+      confirmationString: confirmId,
+      confirmed: false,
+    }, {
+      $set: {
+        confirmed: true,
+        confirmationDate: Date.now()
       }
-    }
-  });
-  //res.redirect('/?id=' + confirmId);
+    }, {
+      new: true
+    }, function(err, user) {
+      if (err) {
+        console.log('Error updating data!');
+      } else {
+        if (user) {
+          console.log('user');
+          console.log(user);
+
+          req.logIn(user, function(err) {
+            if (err) {
+              return next(err);
+            }
+
+            req.flash('accountConfirmed', user.uid);
+            res.redirect('/?confirm=account');
+          });
+        } else {
+          res.redirect('/');
+        }
+      }
+    }); // User.findOneAndUpdate
+  }
 
 });
 

@@ -46,7 +46,7 @@ router.get('/', function(req, res, next) {
             "confirmationDate": true,
             "profilePic": true,
             "uid": true
-          });
+          }).sort({'created': -1}).limit(5);
           query.exec( function(err, users) {
             if (err) {
               return next(err);
@@ -55,7 +55,8 @@ router.get('/', function(req, res, next) {
                 title: 'Administration du site',
                 req: req,
                 userStats: userStats,
-                users: users
+                users: users,
+                actions: false
               });
             }
           });
@@ -120,7 +121,8 @@ router.get('/users', function(req, res, next) {
         res.render('pages/admin/users', {
           title: 'Membres',
           req: req,
-          users: users
+          users: users,
+          actions: true
         });
       }
     });
@@ -162,8 +164,10 @@ router.post('/api/user/save', function(req, res, next) {
   if (!req.user || req.user.role !== 'admin') {
     res.redirect('/login');
   } else {
+    console.log('AAA');
 
-    if (req.body && req.body._id && req.body._id == '') {
+    if (req.body && req.body._id && req.body._id != '') {
+      console.log('BBB');
 
       queryObj = {
         '_id': req.body._id
@@ -175,7 +179,7 @@ router.post('/api/user/save', function(req, res, next) {
         role: req.body.role,
         gender: req.body.gender
       }
-
+console.log('CCC');
       User.findOneAndUpdate(queryObj, {
         $set: setObject
       }, {
@@ -197,7 +201,7 @@ router.post('/api/user/save', function(req, res, next) {
       });
 
     } else {
-
+console.log('XXX');
       res.json({
         status: 'failure'
       });

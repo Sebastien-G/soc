@@ -11,11 +11,13 @@ div.row.expanded
             th Sexe
             th E-mail
             th Role
-            th Date de naissance
+            if actions
+              th Date de naissance
             th Date d’inscription
             th Statut
-            th UID
-            th(colspan="2") Actions
+            if actions
+              th UID
+              th(colspan="2") Actions
         tbody
           each user in users
             tr
@@ -37,7 +39,8 @@ div.row.expanded
                   i.icon.fa.fa-unlock
                 else
                   i.icon.fa.fa-lock
-              td(title=moment(user.dateOfBirth).format('DD/MM/YYYY'))= moment(user.dateOfBirth).format('DD/MM/YYYY')
+              if actions
+                td(title=moment(user.dateOfBirth).format('DD/MM/YYYY'))= moment(user.dateOfBirth).format('DD/MM/YYYY')
               td(title=moment(user.created).format('DD/MM/YYYY HH:MM:ss'))= moment(user.created).format('DD/MM/YYYY')
               if user.confirmed
                 td(title="Confirmé le : " + moment(user.confirmationDate).format('DD/MM/YYYY à HH:MM:ss'))
@@ -45,12 +48,10 @@ div.row.expanded
               else
                 td(title="Compte non confirmé")
                   i.icon.fa.fa-ban
-              td= user.uid
-              td(title="Modifier ce compte")
-                a(href="/admin/user/edit/" + user._id)
-                  i.icon.fa.fa-pencil
-              td(title="Supprimer ce compte")
-                //- a(href="/admin/user/remove/" + user._id)
-                //-   i.icon.fa.fa-remove
-
-                confirm-user-delete(data-user-id=user._id)
+              if actions
+                td= user.uid
+                td(title="Modifier ce compte")
+                  a(href="/admin/user/edit/" + user._id)
+                    i.icon.fa.fa-pencil
+                td(title="Supprimer ce compte")
+                  confirm-user-delete(data-user-id=user._id)

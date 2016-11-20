@@ -1,4 +1,4 @@
-extends ../../layouts/admin
+extends ../../layouts/adminDashboard
 
 block angularControllers
   script(src="/javascripts/admin/user-delete-directive.js")
@@ -11,17 +11,36 @@ block content
 
     div.small-4.columns
       h2 Membres
-      p= userStats.total
-      p= userStats.confirmed
-      p= userStats.awaitingConfirmation
+      table
+        tbody
+          tr
+            td membres
+            td= userStats.total
+          tr
+            td membres confirmés
+            td= userStats.confirmed
+          tr
+            td membres en attente de confirmation
+            td= userStats.awaitingConfirmation
 
     div.small-4.columns
       h2 Messages
+      tr
+        td membres
+        td= userStats.total
+      tr
+        td membres confirmés
+        td= userStats.confirmed
+      tr
+        td membres en attente de confirmation
+        td= userStats.awaitingConfirmation
 
     div.small-4.columns
-      h3 ...
+      h3
 
-  h2 Membres
+  h2= "5 nouveaux membres "
+    small
+      a(href="/admin/users") voir tous les membres
   include ../../includes/admin/userTable.pug
 
   div.row.expanded

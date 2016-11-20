@@ -4,7 +4,7 @@ var passport = require('passport');
 var User = require('../models/user');
 // var nodemailer = require('nodemailer'); // loaded only later
 
-/*
+
 var days = {
   '0': 'Jour',
   '1': 1,
@@ -62,18 +62,19 @@ var year = parseInt(new Date().getFullYear());
 for (year; year >= 1900; year--) {
   years[year] = year;
 }
-*/
+/*
 var formData = {
   'firstname': '',
   'lastname': '',
   'username': '',
   'username-repeat': '',
-  'password': ''/*,
+  'password': '',
   'birthday': '',
   'birthmonth': '',
-  'birthyear': ''*/
+  'birthyear': '',
+  'gender': ''
 }
-
+*/
 
 router.get('/', function(req, res, next) {
 
@@ -85,10 +86,10 @@ router.get('/', function(req, res, next) {
   res.render('pages/public/signup', {
     title: 'Inscription',
     req: req,
-    /*days: days,
+    days: days,
     months: months,
-    years: years,*/
-    formData: formData
+    years: years/*,
+    formData: formData*/
   });
 });
 
@@ -98,14 +99,18 @@ router.post('/', function(req, res) {
     'lastname',
     'username',
     'username-repeat',
-    'password'
+    'password',
+    'birthday',
+    'birthmonth',
+    'birthyear',
+    'gender'
   ];
   var i;
   var userInput = {};
   var invalidFields = [];
   var formErrors = false;
   var missingInput = false;
-
+console.log(req.body);
   for (i = 0; i < requiredInputs.length; i++) {
     if (req.body[requiredInputs[i]]) {
       userInput[requiredInputs[i]] = req.body[requiredInputs[i]];
@@ -144,6 +149,11 @@ router.post('/', function(req, res) {
     userInput[field] = '';
     formMessages[field] = 'Veuillez confirmer votre adresse e-mail';
     invalidFields.push([field]);
+  } else {
+    if (userInput[field] !== userInput['username']) {
+      formMessages[field] = 'Les adresses e-mail ne correspondent pas';
+      invalidFields.push([field]);
+    }
   }
 
   field = 'password';
@@ -151,22 +161,32 @@ router.post('/', function(req, res) {
     userInput[field] = '';
     formMessages[field] = 'Veuillez saisir votre mot de passe';
     invalidFields.push([field]);
+  } else {
+    if (userInput[field].length < 6) {
+      formMessages[field] = 'Ce mot de passe est trop court';
+      invalidFields.push([field]);
+    }
   }
 
 
   if (invalidFields.length > 0) {
     formErrors = true;
+    console.log('invalidFields.length > 0');
+    console.log(invalidFields);
   }
 
 
   if (formErrors) {
     res.json({
       status: 'error',
-      formData: userInput
+      formData: userInput,
+      formMessages: formMessages
     });
     return false;
 
   } else {
+
+    dateOfBirth = userInput.birthyear + '-' + userInput.birthmonth + ' ' + userInput.birthday;
 
     // Process user registration
     var randomstring = require('randomstring');
@@ -178,7 +198,9 @@ router.post('/', function(req, res) {
       confirmationString: confirmationString,
       firstname: userInput.firstname,
       lastname: userInput.lastname,
-      username: userInput.username
+      username: userInput.username,
+      gender: userInput.gender,
+      dateOfBirth: dateOfBirth
     }),
     userInput.password,
     function(err, user) {

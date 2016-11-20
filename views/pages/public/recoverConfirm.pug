@@ -1,0 +1,11 @@
+extends ../../layouts/default
+
+block angularControllers
+  script(src="/javascripts/recover-confirm-controller.js")
+
+block content
+  h1= title
+
+  div.callout.secondary Veuillez saisir votre nouveau mot de passe
+
+  include ../../includes/public/recover_confirm_form.pug

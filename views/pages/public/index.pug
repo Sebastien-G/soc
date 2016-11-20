@@ -9,21 +9,26 @@ block angularControllers
 
 block content
 
+  if recoverConfirmEmail
+    div.callout.success
+      h3 Consultez votre messagerie
+      p Un e-mail vous a été envoyé à
+        = " "
+        strong #{recoverConfirmEmail}
+        |.
+      p Veuillez suivre les instructions pour ré-initialiser votre mot de passe.
+
   if signupConfirmEmail
-    div.callout.success(data-closable="slide-out-right")
-      button.close-button(aria-label="Close alert", type="button", close="true")
-        span(aria-hidden="true") &times;
+    div.callout.success
       h3 Consultez votre messagerie
       p Un e-mail vous a été envoyé à
         = " "
         strong #{signupConfirmEmail}
         |.
-      p Veuillez suivre les instructions pour confirmer votre inscription.
+      p Veuillez suivre les instructions pour confirmer votre compte.
 
   if accountConfirmed
-    div.callout.success(data-closable="slide-out-right")
-      button.close-button(aria-label="Close alert", type="button", close="true")
-        span(aria-hidden="true") &times;
+    div.callout.success
       h3 Bienvenue&nbsp;!
       p Votre compte a été confirmé
       p

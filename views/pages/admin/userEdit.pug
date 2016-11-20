@@ -5,7 +5,7 @@ block angularControllers
 
 block content
 
-  a(href="/admin/") retour
+  a(href="/admin/users") retour
 
   h1= title
 
@@ -45,7 +45,7 @@ block content
               p.callout.alert(ng-message="required") Veuillez saisir votre adresse e-mail.
               p.callout.alert(ng-message="email") Cette adresse e-mail est invalide.
 
-          div.small-6.large-4.columns(class=(formMessages && formMessages.role) ? 'field-error' : '')
+          div.small-6.large-4.end.columns(class=(formMessages && formMessages.role) ? 'field-error' : '')
             label(for="role") Rôle
             select(id="role", name="role", required="required", ng-model="userEditCtrl.formData.role")
               option(value="user") Utilisateur
@@ -54,7 +54,6 @@ block content
             div(ng-messages="userEditCtrl.form.role.$error", ng-if="userEditCtrl.form.role.$dirty", role="alert")
               p.callout.alert(ng-message="required") Vous devez spécifier un rôle.
 
-          div.small-12.large-4.columns
 
         div.row.expanded
           div.small-12.columns

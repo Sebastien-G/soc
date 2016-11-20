@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
       }
 
       Post.find({
-        user_id: {
+        'user_id': {
           $in: userIds
         }
       }).sort('-publicationDate').exec(function(err, posts) {
@@ -38,11 +38,7 @@ router.get('/', function(req, res, next) {
           });
         }
       });
-
-
     }); // utils.getFriends
-
-
   } // auth
 });
 
@@ -67,6 +63,32 @@ router.post('/', function(req, res, next) {
 
       } else {
 
+        var userIds = [req.user._id];
+
+        utils.getFriends(req.user, true).then(function(friendIds) {
+
+          if (friendIds.length > 0) {
+            userIds = userIds.concat(friendIds);
+          }
+
+          Post.find({
+            'user_id': {
+              $in: userIds
+            }
+          }).sort('-publicationDate').exec(function(err, posts) {
+            if (err) {
+              res.error(error);
+            } else {
+              // console.log(posts);
+              res.json({
+                status: 'success',
+                posts: posts
+              });
+            }
+          });
+        }); // utils.getFriends
+
+/*
         Post.find({}).sort('-publicationDate').exec(function(err, posts) {
           if (err) {
             res.error(error);
@@ -77,7 +99,7 @@ router.post('/', function(req, res, next) {
             });
           }
         });
-
+*/
       }
     });
   } // auth
