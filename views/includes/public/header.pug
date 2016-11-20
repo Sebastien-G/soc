@@ -105,7 +105,7 @@ header.top-bar(ng-controller="topBarController as topBarCtrl", id="main-menu")
               i.icon.fa.fa-inbox
 
           li
-            a
+            a(tooltip="{{topBarCtrl.tooltips.settings}}", tooltip-placement="bottom", tooltip-popup-delay="300")
               i.icon.fi-widget
 
             ul.menu.vertical

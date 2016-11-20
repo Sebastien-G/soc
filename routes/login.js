@@ -49,24 +49,6 @@ router.post('/', function(req, res, next) {
             return next(err);
           }
 
-          //var profilePicUid = utils.getProfilePic(user);
-          var userConnection = {
-            profilePic: user.profilePic,
-            firstname: user.firstname,
-            lastname: user.lastname,
-            uid: user.uid,
-            user_id: user._id,
-            loginDate: Date.now()
-          }
-
-          if (req.app.locals.loggedInUsers.hasOwnProperty(user.uid)) {
-            req.app.locals.loggedInUsers[user.uid].loginDate = Date.now();
-          } else {
-            req.app.locals.loggedInUsers[user.uid] = userConnection;
-          }
-
-
-          //return res.redirect('/user/' + user.uid);
           return res.redirect('/');
         });
       }

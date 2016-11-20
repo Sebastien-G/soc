@@ -2,10 +2,13 @@
 
 angular.module('app', ['app.services', 'app.controllers', 'app.directives', 'mm.foundation', 'ngAnimate', 'ngMessages', 'angucomplete-alt'])
 
-.config(['$logProvider', '$compileProvider', function($logProvider, $compileProvider) {
+.config(['$logProvider', '$compileProvider', '$tooltipProvider', function($logProvider, $compileProvider, $tooltipProvider) {
   var displayDebugInfo = true; // true | false
   $logProvider.debugEnabled(displayDebugInfo);
   $compileProvider.debugInfoEnabled(displayDebugInfo);
+  $tooltipProvider.setTriggers({
+    'mouseover': 'mouseout click'
+  });
 }])
 
 /*

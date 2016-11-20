@@ -6,7 +6,7 @@ angular.module('app.controllers', [])
     messages: 'Messages',
     notifications: 'Notifications',
     invitations: 'Invitations',
-    params: 'Réglages'
+    settings: 'Réglages'
   }
 
   this.notifications = [
@@ -49,6 +49,10 @@ angular.module('app.controllers', [])
 
   socketIoService.on('activityStatus', function(data) {
     debug && $log.debug('Updating activity status...');
+
+    if (data.nbOnlineUsers > 0) {
+      data.nbOnlineUsers--; // Me - 1
+    }
 
     self.onlineFriends = data.onlineFriends;
     if (data.nbOnlineUsers === 0) {

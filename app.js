@@ -60,10 +60,6 @@ passport.deserializeUser(User.deserializeUser());
 
 // Routes
 app.use(function (req, res, next) {
-  if (app.locals.loggedInUsers === undefined) {
-    app.locals.loggedInUsers = {};
-  }
-
   app.locals.moment = require('moment');
   // console.log(chalk.blue('app.locals.loggedInUsers'));
   // console.log(app.locals.loggedInUsers);
