@@ -12,6 +12,79 @@ router.get('/', function(req, res, next) {
 });
 
 
+router.get('/profile/get', function(req, res, next) {
+  if (!req.user) {
+    res.json({
+      status: 'failure',
+      response: 'Not authorized'
+    });
+  } else {
+
+    User.find({
+      '_id': {
+        $eq: req.user._id
+      }
+    }).select({
+      'about': true,
+      'gender': true,
+      'firstname': true,
+      'lastname': true
+    }).exec(function (err, user) {
+      res.json({
+        status: 'success',
+        results: user
+      });
+
+    });
+  } // auth
+
+});
+
+
+
+router.post('/profile/save', function(req, res, next) {
+  if (!req.user) {
+    res.json({
+      status: 'failure',
+      response: 'Not authorized'
+    });
+  } else {
+
+    queryObj = {
+      '_id': req.user._id
+    }
+
+    setObject = {
+      about: req.body.about,
+      gender: req.body.gender
+    }
+
+    User.findOneAndUpdate(queryObj, {
+      $set: setObject
+    }, {
+      new: true
+    }, function(err, user) {
+      if (err) {
+        console.log('Error updating data!');
+      } else {
+        if (user) {
+          console.log('user');
+          console.log(user);
+          res.json({
+            status: 'success',
+            results: user
+          });
+        } else {
+        }
+      }
+    });
+
+
+  } // auth
+
+});
+
+
 router.post('/messages/send', function(req, res, next) {
 
   if (!req.user) {

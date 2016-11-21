@@ -64,6 +64,8 @@ router.get('/:uid/about', function(req, res, next) {
       uid: uid
     },
     function(err, user) {
+console.log('ABOUT user');
+console.log(user);
       if (err) {
         return next(err);
       } else {

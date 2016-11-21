@@ -92,7 +92,11 @@ angular.module('app.controllers', [])
     }, 4000);
   });
 
-  this.updateNbLoggedIn = function() {
+  // $scope.$on('getOnlineFriends', function() {
+  //   debug && $log.debug('getOnlineFriends');
+  // });
+
+  this.updateNbLoggedIn = function(event, args) {
     socketIoService.emit('getActivityStatus');
   }
 
@@ -104,6 +108,8 @@ angular.module('app.controllers', [])
 
   var self = this;
   var debug = true;
+  this.onlineFriends = [];
+
 
   this.request = function (fromUid, toUid) {
     socketIoService.emit('startChat', {
@@ -115,10 +121,17 @@ angular.module('app.controllers', [])
 }]) // chatRequestController
 
 
-.controller('chatController', ['$log', 'socketIoService', 'chatModalService', function($log, socketIoService, chatModalService) {
+.controller('chatController', ['$rootScope', '$scope', '$log', 'socketIoService', 'chatModalService', '$timeout', function($rootScope, $scope, $log, socketIoService, chatModalService, $timeout) {
 
   var self = this;
   var debug = true;
+  //
+  // $timeout(function() {
+  //   $rootScope.$broadcast('getOnlineFriends');
+  //
+  // }, 4000);
+  // $scope.$on('onlineFriends');
+
 
   socketIoService.on('chatRequest', function(data) {
     debug && $log.debug('%cchatRequest', 'font-size:1.5rem;color:#ff0;');

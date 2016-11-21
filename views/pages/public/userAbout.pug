@@ -11,6 +11,8 @@ block content
 
   if req && req.user
 
+    h2 À propos de #{user.firstname} #{user.lastname}
+
     div
       if user.about == ''
         em

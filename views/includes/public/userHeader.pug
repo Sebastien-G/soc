@@ -11,7 +11,6 @@ if req && req.user
           button.button(ng-click="chatRequestCtrl.request('" + req.user.uid + "', '" + user.uid + "')")
             i.fi-comments
             = " Discussion instantanée"
-        a.button(href="/message") Envoyer un message
 
   nav.expanded.button-group.profile-tabs
     a.button(class={active: activeTab === 'journal'}, href=user.userUrl) Journal

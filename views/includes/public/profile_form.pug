@@ -1,55 +1,55 @@
+div.row
+  form(ng-controller="pictureUploadController as pictureUploadCtrl" name="pictureUploadCtrl.ImageUploadform")
+    div.small-12.large-6.columns
+      h3 Photo
+      input(
+         type="file",
+         ngf-select,
+         ng-model="pictureUploadCtrl.file",
+         name="file",
+         ngf-pattern="'image/*'",
+         accept="image/*",
+         ngf-max-size="5MB"
+      )
 
-form(ng-controller="pictureUploadController as pictureUploadCtrl" name="pictureUploadCtrl.ImageUploadform")
+      div(ng-if="pictureUploadCtrl.file")
+        label Aperçu :
+        img(ngf-thumbnail="pictureUploadCtrl.file || '" + req.user.profilePic + "'", width="100%")
+        i(ng-show="pictureUploadCtrl.ImageUploadform.file.$error.required") required
+        i(ng-show="pictureUploadCtrl.ImageUploadform.file.$error.maxSize") File too large {{pictureUploadCtrl.file.size / 1000000|number:1}}MB: max 5M
 
-  input(
-     type="file",
-     ngf-select,
-     ng-model="pictureUploadCtrl.file",
-     name="file",
-     ngf-pattern="'image/*'",
-     accept="image/*",
-     ngf-max-size="5MB"
-  )
+        button.expanded.success.button(type="submit", ng-click="pictureUploadCtrl.submitUpload()") Envoyer
 
-  label Aperçu :
-  img(ngf-thumbnail="pictureUploadCtrl.file || '" + req.user.profilePic + "'", width="300")
-  i(ng-show="pictureUploadCtrl.upload_form.file.$error.required") required
-  i(ng-show="pictureUploadCtrl.upload_form.file.$error.maxSize") File too large {{pictureUploadCtrl.file.size / 1000000|number:1}}MB: max 5M
+        div.progress(role="progressbar", tabindex="0", aria-valuenow="{{pictureUploadCtrl.progressPercentage}}", aria-valuemin="0", aria-valuetext="{{pictureUploadCtrl.progressPercentage}} percent", aria-valuemax="100")
+          span.progress-meter(style="width: {{pictureUploadCtrl.progressPercentage}}%")
+            p.progress-meter-text {{pictureUploadCtrl.progressPercentage}} %
+        div.callout.success(ng-if="pictureUploadCtrl.uploadSuccess") {{pictureUploadCtrl.msg}}
 
-  button.expanded.button(type="submit", ng-click="pictureUploadCtrl.submitUpload()") Envoyer
-  p {{pictureUploadCtrl.progress}}
+  div.small-12.large-6.columns(ng-controller="profileController as profileCtrl")
 
+    h3 À propos
+    form(method="post", name="profileCtrl.profileForm", ng-submit="profileCtrl.profileForm.$valid && profileCtrl.save()", novalidate)
 
-div(ng-controller="profileController as profileCtrl")
-
-  form(method="post", name="profileCtrl.profileForm", ng-submit="profileCtrl.profileForm.$valid && profileCtrl.save()", novalidate)
-
-    div.row
-      div.small-12.columns
-        label(for="about") Votre description
-        textarea(id="about", name="about", required="required", ng-model="profileCtrl.formData.about") =formData.about
-        div(ng-messages="profileCtrl.profileForm.about.$error", ng-if="profileCtrl.profileForm.about.$dirty", role="alert")
-          p.callout.alert(ng-message="required") Veuillez saisir une description.
-
-    // -
       div.row
         div.small-12.columns
-          ="Date de naissance"
-          div.row
-            div.small-4.columns
-              select(id="birthday", name="birthday", required="required")
-                each val in days
-                  option(value=val)= val
-            div.small-4.columns
-              select(id="birthmonth", name="birthmonth", required="required")
-                each val, index in months
-                  option(value=index)= val
-            div.small-4.columns
-              select(id="birthyear", name="birthyear", required="required")
-                each val in years
-                  option(value=val)= val
+          label(for="about") Votre description
+          textarea.profile-about(id="about", name="about", required="required", ng-model="profileCtrl.formData.about")
+          div(ng-messages="profileCtrl.profileForm.about.$error", ng-if="profileCtrl.profileForm.about.$dirty", role="alert")
+            p.callout.alert(ng-message="required") Veuillez saisir une description.
 
 
-    div.row
-      div.small-12.columns
-        input.button.expanded.success(type="submit", value="Enregistrer" ng-disabled="profileCtrl.profileForm.$invalid")
+      div.row
+        div.small-6.large-4.columns
+          label(for="gender-male")
+            input(type="radio", id="gender-male", name="gender", value="male", required="required", ng-model="profileCtrl.formData.gender")
+            = " Homme"
+        div.small-6.large-4.columns.end
+          label(for="gender-female")
+            input(type="radio", id="gender-female", name="gender", value="female", required="required", ng-model="profileCtrl.formData.gender")
+            = " Femme"
+
+      div.row
+        div.small-12.columns
+          input.button.expanded.success(type="submit", value="Enregistrer" ng-disabled="profileCtrl.profileForm.$invalid")
+
+          div.callout.success(ng-if="profileCtrl.saveSuccess") {{profileCtrl.msg}}

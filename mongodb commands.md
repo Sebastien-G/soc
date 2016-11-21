@@ -25,7 +25,7 @@
     db.users.update(
       {
         '_id': {
-          $eq: ObjectId("581fc388c0d82830a0ee0993")
+          $eq: ObjectId("5832444dadb1520e294b79af")
         }
       },
       {
@@ -194,17 +194,17 @@ db.posts.remove({
     { "_id" : ObjectId("5827c48aff0a952ab88b25d0"), "firstname" : "Gavin", "lastname" : "McInnes" }
 
 
-
+""
 
     db.posts.update(
       {
         user_id: {
-          $eq: ObjectId("58262749997f282ad0bb1dea")
+          $eq: ObjectId("58325e38adb1520e294b79b1")
         }
       },
       {
         $set: {
-          profilePic: "e97b8773-bc44-49ef-abb7-295f117abf9b_50.jpg"
+          profilePic: "415aab20-1749-4613-80eb-5c233bd7c974_50.jpg"
         }
       },
       {
