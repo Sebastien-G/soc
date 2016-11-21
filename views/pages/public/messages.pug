@@ -1,6 +1,85 @@
 extends ../../layouts/default
 
+
+block angularControllers
+  if req && req.user
+    script(src="/javascripts/messages-controller.js")
+
 block content
   h1= title
 
   if req && req.user
+
+    div(ng-controller="messagesController as messagesCtrl")
+      tabset
+        tab(heading="Boîte de réception", select="messagesCtrl.tabInbox()", class="messages-tab")
+          div(ng-if="messagesCtrl.inboxMessages.length > 0", ng-repeat="message in messagesCtrl.inboxMessages track by $index")
+            div.mail-header-line
+              span.mail-header-title De :
+              friend-badge(data-uid="{{message.fromUser.uid}}", data-firstname="{{message.fromUser.firstname}}", data-lastname="{{message.fromUser.lastname}}", data-profile-pic="{{message.fromUser.profilePic}}")
+
+            div.mail-header-line
+              span.mail-header-title À :
+              span(ng-repeat="user in message.toUsers track by $index")
+                friend-badge(data-uid="{{user.uid}}", data-firstname="{{user.firstname}}", data-lastname="{{user.lastname}}", data-profile-pic="{{user.profilePic}}")
+
+            div.mail-header-line.date.text-right {{message.publicationDate | date : 'd MMM yyyy à HH:mm:ss'}}
+
+            div.message-content {{message.content}}
+              div.text-right
+                button.button Répondre
+
+        tab(heading="Messages envoyés", select="messagesCtrl.tabSent()", class="messages-tab")
+          div(ng-if="messagesCtrl.sentMessages.length > 0", ng-repeat="message in messagesCtrl.sentMessages track by $index")
+            div.mail-header-line
+              span.mail-header-title À :
+              span(ng-repeat="user in message.toUsers track by $index")
+
+                friend-badge(data-uid="{{user.uid}}", data-firstname="{{user.firstname}}", data-lastname="{{user.lastname}}", data-profile-pic="{{user.profilePic}}")
+
+            div.mail-header-line.date.text-right {{message.publicationDate | date : 'd MMM yyyy à HH:mm:ss'}}
+
+            div.message-content {{message.content}}
+              div.text-right
+                button.button Répondre
+
+
+        tab(heading="Écrire", select="messagesCtrl.tabCompose()", class="messages-tab")
+
+          h3 Destinataires
+
+          div.row
+            div.small-12.large-4.columns
+
+              div.recepients(ng-repeat="to in messagesCtrl.tos track by $index")
+                friend-badge(data-uid="{{to.uid}}", data-firstname="{{to.firstname}}", data-lastname="{{to.lastname}}", data-profile-pic="{{to.profilePic}}")
+
+              label Rechercher parmi mes amis
+              angucomplete-alt.input-group-field(
+                id="friends-q",
+                placeholder="Rechercher dans mes amis",
+                pause="100",
+                selected-object="messagesCtrl.selectedObjectCallback",
+                remote-url="/q/friends?q=",
+                remote-url-data-field="results",
+                title-field="firstname,lastname",
+                match-class="highlight",
+                image-field="profilePic",
+                template-url="/templates/angucomplete.html"
+                input-class="input-group-field",
+                minlength="1",
+                clear-selected="true",
+                u="Recherche en cours...",
+                v="Aucun résultat",
+                text-searching="Recherche en cours..."
+                text-no-results="Aucun résultat"
+              )
+
+            div.small-12.large-8.columns
+              div.callout.alert(ng-if="messagesCtrl.sendErrorMessage.length > 0")
+                p(ng-repeat="errorMsg in messagesCtrl.sendErrorMessage track by $index") {{errorMsg}}
+
+              form(name="messagesCtrl.composeForm", ng-submit="messagesCtrl.composeForm.$valid && messagesCtrl.send()", novalidate)
+                label(for="compose") Nouveau message
+                textarea.compose-content(id="compose", name="compose", required="required", ng-model="messagesCtrl.compose")
+                input.button.expanded.success(type="submit", value="Envoyer", ng-disabled="messagesCtrl.composeForm.$invalid")

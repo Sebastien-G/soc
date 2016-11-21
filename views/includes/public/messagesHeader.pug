@@ -1,0 +1,10 @@
+if req && req.user
+
+  nav
+    ul
+      li
+        a(href="/messages").button Nouveau message
+      li
+        button.button Boîte de réception
+      li
+        button.button(ng-click="messagesCtrl.showSent()") Envoyés

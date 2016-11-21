@@ -6,7 +6,8 @@ router.get('/', function(req, res, next) {
 
   var obj = {
     title: 'SG Net',
-    req: req
+    req: req,
+    homepage: true
   };
 
   if (req.query.confirm) {

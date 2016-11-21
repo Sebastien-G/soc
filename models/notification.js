@@ -2,12 +2,22 @@ var mongoose = require('mongoose');
 var User = require('./user');
 /*
 Types:
-friendRequest
+receivedFriendRequest
 acceptedFriendRequest
+rejectedFriendRequest
 newMessage
 chatRequest
 */
 var notificationSchema = new mongoose.Schema({
+  user_id: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: true
+  },
+/*  uid: {
+    type: String,
+    required: true
+  },*/
   type: {
     type: String,
     required: true
@@ -18,7 +28,7 @@ var notificationSchema = new mongoose.Schema({
   },
   readDate: {
     type: Date,
-    default: Date.now
+    default: null
   },
   dateAdded: {
     type: Date,

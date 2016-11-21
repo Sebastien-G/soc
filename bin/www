@@ -58,11 +58,11 @@ io.use(passportSocketIo.authorize({
     mongooseConnection: mongoose.connection
   }),
   success: function (data, accept) {
-    console.log('successful connection to socket.io');
+    // console.log('successful connection to socket.io');
     accept();
   },  // *optional* callback on success - read more below
   fail: function (data, message, error, accept) {
-    console.log('Not authenticated in socket');
+    // console.log('Not authenticated in socket');
     accept();
   }
 }));

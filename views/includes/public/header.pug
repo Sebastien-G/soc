@@ -8,7 +8,7 @@ header.top-bar(ng-controller="topBarController as topBarCtrl", id="main-menu")
 
       ul.dropdown.menu(data-dropdown-menu, data-disable-hover="true")
         li.menu-text
-          a(href="/")
+          a(href="/", title="Page d’accueil")
             img(src="/images/logo.png", width="60", height="60")
 
         //- li
@@ -75,10 +75,11 @@ header.top-bar(ng-controller="topBarController as topBarCtrl", id="main-menu")
       ul.dropdown.menu(data-dropdown-menu, data-disable-hover="true", closing-time="1000")
 
         unless req && req.user
-          li.signup-button
-            a.button.success(href="/signup") Créer un compte
-          li
-            a.button(href="/login") Connexion
+          if !homepage
+            li.signup-button.unauth-button
+              a.button.success(href="/signup") Créer un compte
+            li.unauth-button
+              a.button(href="/login") Connexion
 
 
         if req && req.user

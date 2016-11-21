@@ -33,7 +33,7 @@ angular.module('app.controllers', [])
 
 .controller('activityController', ['$scope', '$log', '$timeout', '$attrs', 'socketIoService', 'chatModalService', function ($scope, $log, $timeout, $attrs, socketIoService, chatModalService) {
   var self = this;
-  var debug = true;
+  var debug = false;
 
   debug && $log.debug('activityController');
 

@@ -232,7 +232,7 @@ router.post('/api/user/delete', function(req, res, next) {
             console.log('Posts by user "' + req.body._id + '" removed from collection "posts"');
 
             Message.find({
-              'from.user_id': req.body._id
+              'owner_id': req.body._id
             }).remove().exec(function (err, messages) {
               if (err) {
                 return next(err);

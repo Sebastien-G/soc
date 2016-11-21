@@ -11,11 +11,22 @@ block content
 
   if req && req.user
 
+    if user.uid === req.user.uid
+      h2 Mes amis
+    else
+      h2 Amis de #{user.firstname} #{user.lastname}
+
     if friends.length > 0
       ul.friends-list
         each user in friends
           li
             friend-badge(data-uid=user.uid, data-firstname=user.firstname, data-lastname=user.lastname, data-profile-pic=user.profilePic)
+    else
+      div.callout.secondary
+        p Vous n’avez aucun ami pour le moment
+        p
+          i.fa.fa-info-circle
+          = " Utilisez le champ de recherche pour trouver des amis"
 
   else
     p You will be escorted out

@@ -4,7 +4,7 @@ div(ng-controller="postController as postCtrl")
       div.small-12.columns
         div.post-form
           label(for="message") Écrivez un message pour tous vos amis
-          textarea.post(id="message", name="message", required="required", ng-model="postCtrl.formData.message")
+          textarea.post(id="message", name="message", required="required", ng-model="postCtrl.formData.message", autofocus)
           div.text-right
             button.button(type="submit")
               i.fa.fa-globe
@@ -20,12 +20,8 @@ div(ng-controller="postController as postCtrl")
           a.post-author(ng-href="/user/{{post.uid}}" )
             div.profile-pic(ng-style!="{'background-image' : 'url(/images/profile/{{post.profilePic}})'}")
 
-
-
             = '{{post.firstname}} {{post.lastname}}'
             = ', '
           span.post-date le {{post.publicationDate | date:'dd/MM/yyyy à HH:mm:ss'}}
         div.post-content
           | {{post.content}}
-
-// , ng-model="{postCtrl.posts}"

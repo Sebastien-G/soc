@@ -118,7 +118,16 @@ exports = module.exports = function(io) {
         user_id: socket.request.user._id,
         loginDate: Date.now(),
       }
-      loggedInUsers.push(userConnection);
+
+      var alreadyCounted = false;
+      loggedInUsers.forEach(function (element, index) {
+        if (userConnection.uid === element.uid) {
+          alreadyCounted = true;
+        }
+      });
+      if (!alreadyCounted) {
+        loggedInUsers.push(userConnection);
+      }
 
     } else {
       debug && console.log('~~User is NOT authenticated');
@@ -201,6 +210,8 @@ exports = module.exports = function(io) {
     socket.on('getActivityStatus', function(data) {
 
       var socketIds = Object.keys(io.of(socketNamespace).sockets);
+
+      debug && console.log('io.engine.clientsCount: ' + io.engine.clientsCount);
       var nbOnlineUsers = socketIds.length;
       var nbLoggedIn = 0;
 

@@ -1,12 +1,210 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var User = require('../models/user');
+var Message = require('../models/message');
+var Notification = require('../models/notification');
 var utils = require('../lib/utils');
 
 
 router.get('/', function(req, res, next) {
   res.send('nothing to see here');
 });
+
+
+router.post('/messages/send', function(req, res, next) {
+
+  if (!req.user) {
+    res.json({
+      status: 'failure',
+      response: 'Not authorized'
+    });
+  } else {
+
+    var content = req.body.content;
+    var toUids = req.body.toUids;
+    console.log(content);
+    console.log(toUids);
+    User.find({
+      'uid': {
+        $in: toUids
+      }
+    }).select({
+      "_id": true
+    }).exec(function (err, users) {
+      if (err) {
+        console.log(err);
+      } else {
+
+        if (users.length) {
+          console.log(users);
+
+          var message = new Message({
+            direction: 'sender',
+            content: content,
+            owner_id: req.user._id,
+            fromUser: req.user._id,
+            toUsers: users
+          });
+          message.save(function (err, newMessage) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log('Message saved for sender (' + req.user.firstname + ')');
+
+              res.json({
+                status: 'success',
+              });
+
+              users.forEach(function (user) {
+
+                var message = new Message({
+                  direction: 'receiver',
+                  content: content,
+                  owner_id: user._id,
+                  fromUser: req.user._id,
+                  toUsers: users
+                });
+                message.save(function (err, newMessage) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    console.log('Message saved for recepient ' + user.firstname);
+                  }
+                });
+              });
+
+            }
+          });
+        }
+      }
+    });
+  } // auth
+
+
+  /*
+  http://mongoosejs.com/docs/populate.html
+  http://stackoverflow.com/questions/21069813/mongoose-multiple-query-populate-in-a-single-call
+  */
+  /*
+      var fromId = "581fc388c0d82830a0ee0993";
+      var toId =   "58262749997f282ad0bb1dea";
+
+      var message = new Message({
+        content: "Doubting",
+        fromUser: fromId,
+        toUser: toId
+      });
+  console.log(message);
+      message.save(function (err, newMessage) {
+        if (err) {
+          console.log(err);
+        } else {
+
+          Message.findOne({
+            '_id': newMessage._id
+          })
+          .populate([
+            {
+              path:'fromUser',
+              select:'firstname lastname uid profilePic'
+            },
+            {
+              path:'toUser',
+              select:'firstname lastname uid profilePic'
+            }
+          ])
+          .exec(function (err, foundMessage) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(foundMessage);
+              console.log('The from.user.firstname is %s', foundMessage.fromUser.firstname);
+            }
+
+          });
+
+
+        }
+
+      });
+  */
+
+
+
+}); // POST /messages/send
+
+
+router.get('/messages/get/sent', function(req, res, next) {
+
+  if (!req.user) {
+    res.json({
+      status: 'failure',
+      response: 'Not authorized'
+    });
+  } else {
+
+    Message.find({
+      'owner_id': req.user._id,
+      'direction': 'sender'
+    })
+    .populate([
+      {
+        path:'toUsers',
+        select:'firstname lastname uid profilePic'
+      }
+    ])
+    .exec(function (err, foundMessages) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          status: 'failure',
+          results: foundMessages
+        });
+      }
+    });
+  } // auth
+}); // GET /messages/sent
+
+
+
+router.get('/messages/get/received', function(req, res, next) {
+
+  if (!req.user) {
+    res.json({
+      status: 'failure',
+      response: 'Not authorized'
+    });
+  } else {
+
+    Message.find({
+      'owner_id': req.user._id,
+      'direction': 'receiver'
+    })
+    .populate([
+      {
+        path:'fromUser',
+        select:'firstname lastname uid profilePic'
+      },
+      {
+        path:'toUsers',
+        select:'firstname lastname uid profilePic'
+      }
+    ])
+    .exec(function (err, foundMessages) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({
+          status: 'failure',
+          results: foundMessages
+        });
+      }
+    });
+  } // auth
+}); // GET /messages/sent
+
 
 
 router.post('/friendships/acceptInvitation', function(req, res, next) {
@@ -18,30 +216,49 @@ router.post('/friendships/acceptInvitation', function(req, res, next) {
     });
   } else {
 
+    if(req.body && req.body.uid) {
 
-    utils.getUserbyUid(req.body.uid).then(function(user) {
-      if (user._id) {
+      var requesterUid = req.body.uid;
+      utils.getUserbyUid(requesterUid).then(function(user) {
+        if (user._id) {
 
-        req.user.acceptRequest(user._id, function (err, result) {
-          if (err) {
-            console.log(err);
-            res.json({
-              status: 'failure',
-              response: 'Request not registered'
-            });
-            //throw err;
-          } else {
+          req.user.acceptRequest(user._id, function (err, result) {
+            if (err) {
+              console.log(err);
+              res.json({
+                status: 'failure',
+                response: 'Request not registered'
+              });
+              //throw err;
+            } else {
 
-            res.json({
-              status: 'success',
-              result: result
-            });
+  /* Start: notify */
+              // Notify the user whose friend request was accepted
+              var notificationObj = {
+                user_id: user._id,
+                uid: requesterUid,
+                type: 'acceptedFriendRequest'
+              };
+              var notification = new Notification(notificationObj);
+              notification.save(function (err, doc, numAffected) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  console.log('Notification saved');
+                }
+              });
+  /* End: notify */
 
-          }
-        });
-      } // if (user._id)
-    }); // utils.getUserbyUid
+              res.json({
+                status: 'success',
+                result: result
+              });
 
+            }
+          });
+        } // if (user._id)
+      }); // utils.getUserbyUid
+    } // req.body check
   }
 }); // removeFriend
 

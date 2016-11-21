@@ -9,6 +9,16 @@ block angularControllers
 
 block content
 
+  //- ul
+  //-   li Sébastien Guillon
+  //-   li Bill	Gates
+  //-   li Elon	Musk
+  //-   li Steve Wozniak
+  //-   li Douglas Crockford
+  //-   li Jeffrey Hawkins
+  //-   li Brendan Eich
+  //-   li Joel	Spolsky
+
   if recoverConfirmEmail
     div.callout.success
       h3 Consultez votre messagerie
@@ -36,20 +46,27 @@ block content
 
 
   unless req && req.user
-    h1 Bienvenue
+    div.hero
+      h1 soc.sebastienguillon.net <br>
+        small un réseau social de test
+
 
     div.row
       div.small-12.medium-6.columns
-        h3 Pas encore inscrit&nbsp;?
-        p
-          a.button.success.expanded(href="/signup") Créez votre compte
-        p
-          em la création de compte est gratuite pour les membres du jury
+        div.home-new
+          h3 Pas encore inscrit&nbsp;?
+          p
+            a.button.success.expanded(href="/signup") Créez votre compte
+          p.text-center
+            em La création de compte est gratuite.
 
       div.small-12.medium-6.columns
-        h3 Vous avez un compte&nbsp;?
-        p
-          a.button.expanded(href="/login") Connectez-vous
+        div.home-log
+          h3 Vous avez un compte&nbsp;?
+          p
+            a.button.expanded(href="/login") Connectez-vous
+          p.text-center
+            a(href="/recover") Informations de compte oubliées ?
 
 
 

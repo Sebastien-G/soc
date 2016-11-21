@@ -4,6 +4,10 @@ $vibrant-color: #f26522; // rgb(242, 101, 34)
 $success-color: #a8c70b;
 $header-color: $vibrant-color;
 
+.ng-cloak {
+  display: none !important;
+}
+
 a {
   color: $primary-color;
 }
@@ -12,9 +16,18 @@ body {
   background-color: #fff;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  color: darken($vibrant-color, 10%);
+}
+.callout.success h1,
+.callout.success h2,
+.callout.success h3 {
+  color: $success-color;
+}
+
 @media screen and (min-width: 40em) {
   h1 {
-
     margin-top: 0;
     font-size: 2rem;
   }
@@ -124,6 +137,9 @@ header.top-bar li.menu-text a:hover {
   //background-color: darken( $primary-color, 5% )
 }
 
+header.top-bar .unauth-button a {
+  margin-top: 10px;
+}
 header.top-bar .signup-button a {
   margin-right: 15px;
 }
@@ -136,6 +152,7 @@ header.top-bar a:hover .icon {
   transition: all 0.66s ease;
 }
 
+
 input#q_value {
   width: 180px;
   max-width: 302px;
@@ -147,6 +164,12 @@ input#q_value:focus {
   -webkit-transition: all 0.66s ease;
   transition: all 0.66s ease;
 }
+
+// #friends-q input {
+//   width: 100%;
+//   max-width: 502px;
+//   border: 1px solid #0f0;
+// }
 
 header.top-bar button.input-group-button.button {
   width: 50px;
@@ -251,6 +274,18 @@ Angular form stuff
 
 
 
+.hero {
+  background-color: #efefef;
+  padding: 1.5rem 2rem 3rem;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  margin-top: 0;
+}
+.home-new, .home-log {
+  padding: 1.5rem 2rem;
+  border: 5px solid #efefef;
+}
 
 
 a.user-badge {
@@ -398,6 +433,10 @@ $motion-ui-classes: (
   color: #fff;
 }
 
+.user-header h1 {
+  color: #fff;
+  text-shadow: 1px 1px 1px #000;
+}
 .user-header {
   padding: 15px;
   background-color: #999;
@@ -478,6 +517,59 @@ textarea.post {
 
 }
 /* End: chat */
+
+
+
+/* Start: Messages */
+.tabs {
+  border: none;
+}
+.tabs .is-active a {
+  background-color: $primary-color;
+  color: #fff;
+}
+.tabs-content {
+  border: none;
+  border-top: 5px solid $primary-color;
+}
+.tabs-panel {
+  min-height: 400px;
+}
+
+.recepients {
+  margin-bottom: 0.5rem;
+}
+.recepients a {
+  margin-top: 0.1rem;
+}
+
+.tabs-title a {
+  font-size: 1rem;
+}
+.compose-content {
+  min-height: 8rem;
+}
+.mail-header-line {
+  padding: 0.5rem 1rem;
+  background-color: #efefef;
+}
+.mail-header-line.date {
+  padding-bottom: 0;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.5);
+}
+.mail-header-title {
+  display: inline-block;
+  width:3rem;
+}
+.message-content {
+  padding: 1rem;
+  padding-bottom: none;
+  border: 1rem solid #efefef;
+  border-top: none;
+  margin-bottom: 1rem;
+}
+/* End: Messages */
 
 
 
